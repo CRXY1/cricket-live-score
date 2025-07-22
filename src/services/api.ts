@@ -103,7 +103,71 @@ const mockMatchData: MatchDetails[] = [
         lastOvers: ['4 6 1 4 1 6', '1 W 4 6 2 1'],
         matchType: 'T20I',
         series: 'England vs South Africa T20I Series 2025'
-    }
+    },
+    {
+        id: '3',
+        teamA: {
+            name: 'Pakistan',
+            score: 198,
+            wickets: 5,
+            overs: '37.0',
+            runRate: 5.35,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg',
+            players: [
+                { id: '7', name: 'Babar Azam', runs: 67, balls: 80 },
+                { id: '8', name: 'Mohammad Rizwan', runs: 44, balls: 51 }
+            ]
+        },
+        teamB: {
+            name: 'New Zealand',
+            score: 195,
+            wickets: 9,
+            overs: '40.2',
+            runRate: 4.83,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Flag_of_New_Zealand.svg',
+            players: [
+                { id: '9', name: 'Kane Williamson', runs: 59, balls: 70 },
+                { id: '10', name: 'Trent Boult', wickets: 2, overs: '7.0' }
+            ]
+        },
+        status: 'live',
+        venue: 'National Stadium Karachi',
+        lastOvers: ['1 1 0 4 0 2', 'W 0 1 1 1 0'],
+        matchType: 'ODI',
+        series: 'Pakistan vs New Zealand ODI Series 2025'
+    },
+    {
+        id: '4',
+        teamA: {
+            name: 'Sri Lanka',
+            score: 142,
+            wickets: 7,
+            overs: '18.3',
+            runRate: 7.67,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Sri_Lanka.svg',
+            players: [
+                { id: '11', name: 'Kusal Mendis', runs: 38, balls: 25 },
+                { id: '12', name: 'Wanindu Hasaranga', runs: 27, balls: 15 }
+            ]
+        },
+        teamB: {
+            name: 'Bangladesh',
+            score: 140,
+            wickets: 8,
+            overs: '20.0',
+            runRate: 7.00,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg',
+            players: [
+                { id: '13', name: 'Shakib Al Hasan', runs: 41, balls: 32 },
+                { id: '14', name: 'Mustafizur Rahman', wickets: 3, overs: '4.0' }
+            ]
+        },
+        status: 'live',
+        venue: 'R. Premadasa Stadium',
+        lastOvers: ['4 1 1 0 6 1', '0 2 1 1 4 0'],
+        matchType: 'T20I',
+        series: 'Sri Lanka vs Bangladesh T20I Series 2025'
+    },
 ];
 
 export const fetchLiveScores = async (): Promise<MatchDetails[]> => {

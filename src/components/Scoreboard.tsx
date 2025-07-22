@@ -30,27 +30,43 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
                     </span>
                 </div>
                 
-                <div className="flex justify-between items-center py-2">
-                    {[match.teamA, match.teamB].map((team, idx) => (
-                        <div key={idx} className="flex flex-col items-center w-5/12">
-                            <div className="flex items-center space-x-2 mb-1">
-                                <img 
-                                    src={team.logo} 
-                                    alt={`${team.name} flag`} 
-                                    className="w-6 h-6 rounded-full object-cover"
-                                />
-                                <span className="text-sm font-bold text-gray-800">{team.name}</span>
-                            </div>
-                            <span className="text-xl font-extrabold text-blue-600">
-                                {team.score}/{team.wickets}
-                            </span>
-                            <span className="text-xs text-gray-600">
-                                ({team.overs}) RR: {team.runRate.toFixed(2)}
-                            </span>
+                <div className="flex items-center justify-between py-2">
+                    <div className="flex flex-col items-center w-5/12">
+                        <div className="flex items-center space-x-2 mb-1">
+                            <img 
+                                src={match.teamA.logo || 'https://via.placeholder.com/40?text=Team'}
+                                alt={`${match.teamA.name} flag`} 
+                                className="w-6 h-6 rounded-full object-cover"
+                                onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/40?text=Team'; }}
+                            />
+                            <span className="text-sm font-bold text-gray-800">{match.teamA.name}</span>
                         </div>
-                    ))}
-                    <div className="w-2/12 flex justify-center">
-                        <span className="text-gray-400 text-sm font-medium">VS</span>
+                        <span className="text-xl font-extrabold text-blue-600">
+                            {match.teamA.score}/{match.teamA.wickets}
+                        </span>
+                        <span className="text-xs text-gray-600">
+                            ({match.teamA.overs}) RR: {match.teamA.runRate.toFixed(2)}
+                        </span>
+                    </div>
+                    <div className="flex flex-col items-center w-2/12">
+                        <span className="text-gray-400 text-base font-bold">VS</span>
+                    </div>
+                    <div className="flex flex-col items-center w-5/12">
+                        <div className="flex items-center space-x-2 mb-1">
+                            <img 
+                                src={match.teamB.logo || 'https://via.placeholder.com/40?text=Team'}
+                                alt={`${match.teamB.name} flag`} 
+                                className="w-6 h-6 rounded-full object-cover"
+                                onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/40?text=Team'; }}
+                            />
+                            <span className="text-sm font-bold text-gray-800">{match.teamB.name}</span>
+                        </div>
+                        <span className="text-xl font-extrabold text-blue-600">
+                            {match.teamB.score}/{match.teamB.wickets}
+                        </span>
+                        <span className="text-xs text-gray-600">
+                            ({match.teamB.overs}) RR: {match.teamB.runRate.toFixed(2)}
+                        </span>
                     </div>
                 </div>
 
