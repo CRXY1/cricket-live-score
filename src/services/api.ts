@@ -46,7 +46,7 @@ const mockMatchData: MatchDetails[] = [
     {
         id: '1',
         teamA: {
-            name: 'India',
+            name: 'IND',
             score: 285,
             wickets: 4,
             overs: '42.3',
@@ -58,7 +58,7 @@ const mockMatchData: MatchDetails[] = [
             ]
         },
         teamB: {
-            name: 'Australia',
+            name: 'AUS',
             score: 248,
             wickets: 8,
             overs: '38.2',
@@ -78,7 +78,7 @@ const mockMatchData: MatchDetails[] = [
     {
         id: '2',
         teamA: {
-            name: 'England',
+            name: 'ENG',
             score: 156,
             wickets: 2,
             overs: '15.4',
@@ -90,7 +90,7 @@ const mockMatchData: MatchDetails[] = [
             ]
         },
         teamB: {
-            name: 'South Africa',
+            name: 'SA',
             score: 0,
             wickets: 0,
             overs: '0.0',
@@ -107,7 +107,7 @@ const mockMatchData: MatchDetails[] = [
     {
         id: '3',
         teamA: {
-            name: 'Pakistan',
+            name: 'PAK',
             score: 198,
             wickets: 5,
             overs: '37.0',
@@ -119,7 +119,7 @@ const mockMatchData: MatchDetails[] = [
             ]
         },
         teamB: {
-            name: 'New Zealand',
+            name: 'NZ',
             score: 195,
             wickets: 9,
             overs: '40.2',
@@ -139,7 +139,7 @@ const mockMatchData: MatchDetails[] = [
     {
         id: '4',
         teamA: {
-            name: 'Sri Lanka',
+            name: 'SL',
             score: 142,
             wickets: 7,
             overs: '18.3',
@@ -151,7 +151,7 @@ const mockMatchData: MatchDetails[] = [
             ]
         },
         teamB: {
-            name: 'Bangladesh',
+            name: 'BAN',
             score: 140,
             wickets: 8,
             overs: '20.0',
@@ -167,6 +167,70 @@ const mockMatchData: MatchDetails[] = [
         lastOvers: ['4 1 1 0 6 1', '0 2 1 1 4 0'],
         matchType: 'T20I',
         series: 'Sri Lanka vs Bangladesh T20I Series 2025'
+    },
+    {
+        id: '5',
+        teamA: {
+            name: 'WI',
+            score: 289,
+            wickets: 6,
+            overs: '45.2',
+            runRate: 6.38,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_the_West_Indies_Federation_%281958%E2%80%931962%29.svg',
+            players: [
+                { id: '15', name: 'Chris Gayle', runs: 95, balls: 68 },
+                { id: '16', name: 'Andre Russell', runs: 48, balls: 29 }
+            ]
+        },
+        teamB: {
+            name: 'IRE',
+            score: 156,
+            wickets: 8,
+            overs: '32.4',
+            runRate: 4.77,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg',
+            players: [
+                { id: '17', name: 'Paul Stirling', runs: 42, balls: 38 },
+                { id: '18', name: 'Tim Murtagh', wickets: 2, overs: '6.4' }
+            ]
+        },
+        status: 'live',
+        venue: 'Kensington Oval',
+        lastOvers: ['6 4 1 1 2 0', '1 0 4 6 1 W'],
+        matchType: 'ODI',
+        series: 'West Indies vs Ireland ODI Series 2025'
+    },
+    {
+        id: '6',
+        teamA: {
+            name: 'AFG',
+            score: 178,
+            wickets: 4,
+            overs: '19.1',
+            runRate: 9.29,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg',
+            players: [
+                { id: '19', name: 'Mohammad Nabi', runs: 62, balls: 41 },
+                { id: '20', name: 'Rashid Khan', runs: 28, balls: 18 }
+            ]
+        },
+        teamB: {
+            name: 'ZIM',
+            score: 142,
+            wickets: 7,
+            overs: '18.5',
+            runRate: 7.54,
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Flag_of_Zimbabwe.svg',
+            players: [
+                { id: '21', name: 'Brendan Taylor', runs: 54, balls: 42 },
+                { id: '22', name: 'Sikandar Raza', runs: 33, balls: 26 }
+            ]
+        },
+        status: 'live',
+        venue: 'Sharjah Cricket Stadium',
+        lastOvers: ['4 6 2 1 4 1', 'W 1 1 0 6 4'],
+        matchType: 'T20I',
+        series: 'Afghanistan vs Zimbabwe T20I Series 2025'
     },
 ];
 
