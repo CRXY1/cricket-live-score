@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Scoreboard from "../components/Scoreboard";
-import NewsCard from "../components/NewsCard";
-import VideoCard from "../components/VideoCard";
-import { fetchLiveScores, fetchLatestNews, fetchFeaturedVideos } from "../services/api";
-import { MatchDetails, NewsArticle, FeaturedVideo } from "../types/cricket";
+import { fetchLiveScores } from "../services/api";
+import { MatchDetails } from "../types/cricket";
 
-const Home: React.FC = () => {
+const LiveScores: React.FC = () => {
   const [scores, setScores] = useState<MatchDetails[]>([]);
-  const [news, setNews] = useState<NewsArticle[]>([]);
-  const [videos, setVideos] = useState<FeaturedVideo[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [liveScores, latestNews, featuredVideos] = await Promise.all([
-          fetchLiveScores(),
-          fetchLatestNews(),
-          fetchFeaturedVideos()
-        ]);
-        
+        const liveScores = await fetchLiveScores();
         setScores(liveScores);
-        setNews(latestNews);
-        setVideos(featuredVideos);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching live scores:', error);
       }
     };
 
@@ -52,11 +41,14 @@ const Home: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-6">
         {/* Live Matches Section */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Live Matches</h2>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-800 mb-2">Live Cricket Scores</h1>
+            <p className="text-gray-600">Real-time updates from ongoing matches around the world</p>
+          </div>
           
           {/* Desktop Slider */}
           <div className="hidden md:block relative">
@@ -152,123 +144,17 @@ const Home: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* All Matches Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+            {scores.map((match, idx) => (
+              <Scoreboard key={idx} match={match} />
+            ))}
+          </div>
         </section>
-
-        {/* Featured News and Videos Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-          {/* Featured News - Takes up 3 columns */}
-          <div className="lg:col-span-3">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Latest News</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {news.map((article, idx) => (
-                <NewsCard 
-                  key={article.id} 
-                  article={article} 
-                  featured={idx === 0} 
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Featured Videos - Takes up 1 column */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Featured Videos</h2>
-            <div className="space-y-4">
-              {videos.map(video => (
-                <VideoCard key={video.id} video={video} />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Series and Results Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <section className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Current Series</h2>
-            <div className="space-y-4">
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">India vs Australia</div>
-                <div className="text-sm text-gray-600">ODI Series</div>
-              </div>
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">England vs South Africa</div>
-                <div className="text-sm text-gray-600">T20I Series</div>
-              </div>
-            </div>
-          </section>
-
-          <section className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Upcoming Matches</h2>
-            <div className="space-y-4">
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">Pakistan vs New Zealand</div>
-                <div className="text-sm text-gray-600">Tomorrow, 7:00 PM</div>
-              </div>
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">Sri Lanka vs Bangladesh</div>
-                <div className="text-sm text-gray-600">Tomorrow, 3:00 PM</div>
-              </div>
-            </div>
-          </section>
-
-          <section className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Results</h2>
-            <div className="space-y-4">
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">India vs England</div>
-                <div className="text-sm text-green-600">India won by 5 wickets</div>
-              </div>
-              <div className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="font-semibold">Australia vs South Africa</div>
-                <div className="text-sm text-green-600">Australia won by 3 wickets</div>
-              </div>
-            </div>
-          </section>
-        </div>
       </main>
-
-      <footer className="bg-gray-800 text-white mt-12">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-bold mb-4">Key Series</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>IPL 2025</li>
-                <li>World Cup 2025</li>
-                <li>Ashes 2025</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>T20 Time Table</li>
-                <li>ICC Rankings</li>
-                <li>Teams</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">CricXL Apps</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>Android App</li>
-                <li>iOS App</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold mb-4">Follow Us</h3>
-              <ul className="space-y-2 text-gray-300">
-                <li>Instagram</li>
-                <li>Twitter</li>
-                <li>Facebook</li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            &copy; 2025 CricXL. All rights reserved.
-          </div>
-        </div>
-      </footer>
-    </>
+    </div>
   );
 };
 
-export default Home;
+export default LiveScores;
