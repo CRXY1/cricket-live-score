@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cricket-live-score/static/css/main.b77d5e98.css",
+    "main.js": "/cricket-live-score/static/js/main.0ec81c64.js",
+    "index.html": "/cricket-live-score/index.html",
+    "main.b77d5e98.css.map": "/cricket-live-score/static/css/main.b77d5e98.css.map",
+    "main.0ec81c64.js.map": "/cricket-live-score/static/js/main.0ec81c64.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b77d5e98.css",
+    "static/js/main.0ec81c64.js"
+  ]
+}
