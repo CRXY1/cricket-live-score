@@ -2,7 +2,7 @@
   "name": "cricxl",
   "version": "1.0.0",
   "description": "CricXL - Your premier destination for live cricket scores and updates.",
-
+  "homepage": "https://CRXY1.github.io/cricket-live-score",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
