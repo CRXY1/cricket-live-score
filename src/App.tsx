@@ -7,7 +7,7 @@ import Series from './pages/Series';
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename="/cricket-live-score">
       <div className="min-h-screen bg-gray-50">
         <Header />
         <Routes>
