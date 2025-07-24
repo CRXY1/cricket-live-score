@@ -10,7 +10,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
 
     return (
         <div
-            className={`bg-white dark:bg-dark-800 rounded-lg shadow-md dark:shadow-xl border dark:border-dark-700 p-4 mb-2 w-full h-60 transform transition-all duration-200 hover:scale-102 ${
+            className={`bg-white dark:bg-dark-800 rounded-lg shadow-md dark:shadow-xl border dark:border-dark-700 p-4 mb-2 w-full h-55 transform transition-all duration-200 hover:scale-102 ${
                 isExpanded ? 'shadow-lg dark:shadow-2xl h-auto' : ''
             } flex flex-col`}
         >
