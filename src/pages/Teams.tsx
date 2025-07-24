@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 
 interface Team {
   id: string;
@@ -120,23 +121,24 @@ const Teams: React.FC = () => {
   ];
 
   const getRankingColor = (rank: number) => {
-    if (rank <= 3) return 'text-green-600 bg-green-100';
-    if (rank <= 6) return 'text-yellow-600 bg-yellow-100';
-    return 'text-red-600 bg-red-100';
+    if (rank <= 3) return 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30';
+    if (rank <= 6) return 'text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30';
+    return 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/30';
   };
 
   const getFormColor = (char: string) => {
-    return char === 'W' ? 'bg-green-500' : 'bg-red-500';
+    return char === 'W' ? 'bg-green-500 dark:bg-green-600' : 'bg-red-500 dark:bg-red-600';
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      {/* Header Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+    <>
+      <main className="container mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           International Cricket Teams
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Discover the world's top cricket teams, their current rankings, recent form, 
           and upcoming fixtures in all formats of the game.
         </p>
@@ -147,13 +149,13 @@ const Teams: React.FC = () => {
         {teams.map((team) => (
           <div
             key={team.id}
-            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100"
+            className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 dark:border-dark-700"
           >
             {/* Team Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-700 p-6 text-white">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-700 dark:to-purple-800 p-6 text-white">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-2">
+                  <div className="w-12 h-12 bg-white dark:bg-gray-100 rounded-full flex items-center justify-center p-2">
                     <img 
                       src={team.flag} 
                       alt={`${team.name} logo`}
@@ -165,11 +167,11 @@ const Teams: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-2xl font-bold">{team.name}</h3>
-                    <p className="text-blue-100">{team.shortName}</p>
+                    <p className="text-blue-100 dark:text-blue-200">{team.shortName}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-blue-200">Captain</p>
+                  <p className="text-sm text-blue-200 dark:text-blue-300">Captain</p>
                   <p className="font-semibold">{team.captain}</p>
                 </div>
               </div>
@@ -179,32 +181,32 @@ const Teams: React.FC = () => {
             <div className="p-6">
               {/* Rankings */}
               <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-3">Current Rankings</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">Current Rankings</h4>
                 <div className="flex space-x-4">
                   <div className="text-center">
                     <div className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getRankingColor(team.ranking.test)}`}>
                       #{team.ranking.test}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">TEST</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">TEST</p>
                   </div>
                   <div className="text-center">
                     <div className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getRankingColor(team.ranking.odi)}`}>
                       #{team.ranking.odi}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">ODI</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">ODI</p>
                   </div>
                   <div className="text-center">
                     <div className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getRankingColor(team.ranking.t20)}`}>
                       #{team.ranking.t20}
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">T20</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">T20</p>
                   </div>
                 </div>
               </div>
 
               {/* Recent Form */}
               <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-3">Recent Form</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">Recent Form</h4>
                 <div className="flex space-x-1">
                   {team.recentForm.split('').map((result, index) => (
                     <div
@@ -218,49 +220,27 @@ const Teams: React.FC = () => {
               </div>
 
               {/* Description */}
-              <p className="text-gray-600 mb-4 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                 {team.description}
               </p>
 
               {/* Next Match */}
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-dark-700 rounded-lg p-4 border dark:border-dark-600">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-gray-600">Next Match</p>
-                    <p className="font-semibold text-gray-800">{team.nextMatch}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Next Match</p>
+                    <p className="font-semibold text-gray-800 dark:text-gray-100">{team.nextMatch}</p>
                   </div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="w-3 h-3 bg-green-500 dark:bg-green-400 rounded-full animate-pulse"></div>
                 </div>
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Bottom Section */}
-      <div className="mt-16 text-center">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-2xl p-8 text-white">
-          <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-xl text-blue-100 mb-6">
-            Follow live scores, match updates, and team news from around the cricket world.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-2xl font-bold">12</p>
-              <p className="text-sm text-blue-200">Test Nations</p>
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-2xl font-bold">104</p>
-              <p className="text-sm text-blue-200">ODI Nations</p>
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
-              <p className="text-2xl font-bold">108</p>
-              <p className="text-sm text-blue-200">T20I Nations</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
+    <Footer />
+    </>
   );
 };
 

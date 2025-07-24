@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Footer from '../components/Footer';
 
 interface NewsArticle {
   id: string;
@@ -134,22 +135,23 @@ const News: React.FC = () => {
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      'match-report': 'bg-green-100 text-green-800',
-      'player-news': 'bg-blue-100 text-blue-800',
-      'tournament': 'bg-purple-100 text-purple-800',
-      'cricket-news': 'bg-orange-100 text-orange-800'
+      'match-report': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'player-news': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'tournament': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300',
+      'cricket-news': 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300'
     };
-    return colors[category as keyof typeof colors] || 'bg-gray-100 text-gray-800';
+    return colors[category as keyof typeof colors] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <>
+      <main className="container mx-auto px-4 py-8">
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           Cricket News Hub
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Stay updated with the latest cricket news, match reports, player updates, 
           and tournament coverage from around the world.
         </p>
@@ -164,8 +166,8 @@ const News: React.FC = () => {
               onClick={() => setSelectedCategory(category.id)}
               className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 ${
                 selectedCategory === category.id
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-blue-50 border border-gray-200'
+                  ? 'bg-blue-600 dark:bg-blue-700 text-white shadow-lg'
+                  : 'bg-white dark:bg-dark-800 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-dark-700 border border-gray-200 dark:border-dark-600'
               }`}
             >
               <span>{category.icon}</span>
@@ -178,7 +180,7 @@ const News: React.FC = () => {
       {/* Featured Article (only show if 'all' is selected) */}
       {selectedCategory === 'all' && featuredArticle && (
         <div className="mb-12">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-700 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-700 dark:to-purple-800 rounded-2xl overflow-hidden shadow-2xl">
             <div className="md:flex">
               <div className="md:w-1/2">
                 <img
@@ -189,7 +191,7 @@ const News: React.FC = () => {
               </div>
               <div className="md:w-1/2 p-8 text-white">
                 <div className="flex items-center mb-4">
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">
+                  <span className="bg-red-500 dark:bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">
                     FEATURED
                   </span>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(featuredArticle.category)}`}>
@@ -199,18 +201,18 @@ const News: React.FC = () => {
                 <h2 className="text-3xl font-bold mb-4 leading-tight">
                   {featuredArticle.title}
                 </h2>
-                <p className="text-blue-100 text-lg mb-6 leading-relaxed">
+                <p className="text-blue-100 dark:text-blue-200 text-lg mb-6 leading-relaxed">
                   {featuredArticle.summary}
                 </p>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 text-blue-200">
+                  <div className="flex items-center space-x-4 text-blue-200 dark:text-blue-300">
                     <span>{featuredArticle.author}</span>
                     <span>•</span>
                     <span>{new Date(featuredArticle.date).toLocaleDateString()}</span>
                     <span>•</span>
                     <span>{featuredArticle.readTime}</span>
                   </div>
-                  <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors">
+                  <button className="bg-white dark:bg-gray-100 text-blue-600 dark:text-blue-700 px-6 py-3 rounded-full font-semibold hover:bg-blue-50 dark:hover:bg-gray-200 transition-colors">
                     Read More
                   </button>
                 </div>
@@ -225,7 +227,7 @@ const News: React.FC = () => {
         {(selectedCategory === 'all' ? regularArticles : filteredArticles).map((article) => (
           <article
             key={article.id}
-            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100"
+            className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 dark:border-dark-700"
           >
             {/* Article Image */}
             <div className="relative overflow-hidden">
@@ -243,15 +245,15 @@ const News: React.FC = () => {
 
             {/* Article Content */}
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 leading-tight">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-3 line-clamp-2 leading-tight">
                 {article.title}
               </h3>
-              <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 leading-relaxed">
                 {article.summary}
               </p>
 
               {/* Article Meta */}
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+              <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                 <span className="font-medium">{article.author}</span>
                 <span>{article.readTime}</span>
               </div>
@@ -261,7 +263,7 @@ const News: React.FC = () => {
                 {article.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium"
+                    className="bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full text-xs font-medium"
                   >
                     {tag}
                   </span>
@@ -270,10 +272,10 @@ const News: React.FC = () => {
 
               {/* Read More Button */}
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   {new Date(article.date).toLocaleDateString()}
                 </span>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors">
+                <button className="bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
                   Read More
                 </button>
               </div>
@@ -284,31 +286,33 @@ const News: React.FC = () => {
 
       {/* Load More Section */}
       <div className="text-center mt-12">
-        <button className="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg">
+        <button className="bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-700 dark:to-purple-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-purple-800 dark:hover:from-blue-800 dark:hover:to-purple-900 transition-all duration-300 transform hover:scale-105 shadow-lg dark:shadow-xl">
           Load More Articles
         </button>
       </div>
 
       {/* Newsletter Signup */}
       <div className="mt-16">
-        <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-8 text-center text-white">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-900 dark:from-dark-800 dark:to-dark-900 rounded-2xl p-8 text-center text-white border dark:border-dark-700">
           <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+          <p className="text-gray-300 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
             Get the latest cricket news, match updates, and exclusive content delivered straight to your inbox.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-3 rounded-full text-gray-800 dark:text-gray-200 bg-white dark:bg-dark-700 border dark:border-dark-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             />
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+            <button className="bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
               Subscribe
             </button>
           </div>
         </div>
       </div>
     </main>
+    <Footer />
+    </>
   );
 };
 
