@@ -10,6 +10,7 @@ const Home: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [videos, setVideos] = useState<FeaturedVideo[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,8 +24,10 @@ const Home: React.FC = () => {
         setScores(liveScores);
         setNews(latestNews);
         setVideos(featuredVideos);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false);
       }
     };
 
@@ -54,6 +57,29 @@ const Home: React.FC = () => {
   return (
     <>
       <main className="container mx-auto px-4 py-6">
+        {/* Show loading or fallback content */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="bg-blue-500 text-white p-8 rounded-lg">
+              <h2 className="text-2xl font-bold mb-4">Loading Cricket Data...</h2>
+              <p>Please wait while we fetch the latest scores and news.</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Show fallback if no data */}
+            {scores.length === 0 && news.length === 0 && videos.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="bg-green-500 text-white p-8 rounded-lg">
+                  <h2 className="text-2xl font-bold mb-4">Welcome to CricXL!</h2>
+                  <p>Your premier destination for live cricket scores and updates.</p>
+                  <p className="mt-2">Data is being loaded from our servers...</p>
+                </div>
+              </div>
+            ) : null}
+          </>
+        )}
+        
         {/* Live Matches Section */}
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Live Matches</h2>
