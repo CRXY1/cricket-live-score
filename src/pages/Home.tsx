@@ -93,37 +93,37 @@ const Home: React.FC = () => {
           
           {/* Desktop Slider */}
           <div className="hidden md:block relative">
-            <div className="overflow-hidden">
+            <div className={`overflow-hidden ${scores.length > 4 ? 'ml-6 mr-8' : ''}`}>
               <div 
-                className="flex transition-transform duration-300 ease-in-out gap-4"
-                style={{ transform: `translateX(-${currentSlide * 25}%)` }}
+                className="flex transition-transform duration-300 ease-in-out gap-3"
+                style={{ transform: `translateX(-${currentSlide * 24.25}%)` }}
               >
                 {scores.map((match, idx) => (
-                  <div key={idx} className="w-1/4 flex-shrink-0">
+                  <div key={idx} className="w-[24.25%] flex-shrink-0 min-w-0">
                     <Scoreboard match={match} />
                   </div>
                 ))}
               </div>
             </div>
             
-            {/* Desktop Navigation Arrows */}
+            {/* Desktop Navigation Arrows - Made smaller */}
             {scores.length > 4 && (
               <>
                 <button
                   onClick={prevSlide}
                   disabled={currentSlide === 0}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-dark-700 shadow-lg dark:shadow-xl rounded-full p-2 hover:bg-gray-50 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed z-10 border dark:border-dark-600"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-700 shadow-md dark:shadow-lg rounded-full p-1.5 hover:bg-gray-50 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed z-10 border dark:border-dark-600"
                 >
-                  <svg className="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
                   onClick={nextSlide}
                   disabled={currentSlide >= Math.max(0, scores.length - 4)}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-dark-700 shadow-lg dark:shadow-xl rounded-full p-2 hover:bg-gray-50 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed z-10 border dark:border-dark-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-700 shadow-md dark:shadow-lg rounded-full p-1.5 hover:bg-gray-50 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed z-10 border dark:border-dark-600"
                 >
-                  <svg className="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
