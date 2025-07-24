@@ -370,3 +370,18 @@ export const fetchFeaturedVideos = async (): Promise<FeaturedVideo[]> => {
         return mockVideosData;
     }
 };
+
+export const fetchNewsArticle = async (id: string): Promise<NewsArticle | null> => {
+    try {
+        if (MOCK_DATA) {
+            const article = mockNewsData.find(article => article.id === id);
+            return Promise.resolve(article || null);
+        }
+        const response = await axios.get(`${API_BASE_URL}/news/${id}`);
+        return response.data;
+    } catch (error) {
+        console.warn('API call failed, returning mock data:', error);
+        const article = mockNewsData.find(article => article.id === id);
+        return article || null;
+    }
+};
