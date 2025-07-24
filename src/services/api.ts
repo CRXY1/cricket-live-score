@@ -14,7 +14,7 @@ const mockNewsData: NewsArticle[] = [
         content: "In a spectacular display of batting...",
         author: "John Smith",
         date: "2025-07-20",
-        image: "https://example.com/news1.jpg",
+        image: "/api/placeholder/400/250",
         category: "match-report",
         tags: ["India", "Australia", "ODI"]
     },
@@ -25,7 +25,7 @@ const mockNewsData: NewsArticle[] = [
         content: 'The International Cricket Council today announced...',
         author: 'Jane Doe',
         date: '2025-07-19',
-        image: 'https://example.com/news2.jpg',
+        image: '/api/placeholder/400/250',
         category: 'news',
         tags: ['T20 World Cup', 'ICC']
     }
@@ -35,9 +35,9 @@ const mockVideosData: FeaturedVideo[] = [
     {
         id: '1',
         title: 'Top 10 Catches of the Week',
-        thumbnail: 'https://example.com/video1.jpg',
+        thumbnail: '/api/placeholder/300/200',
         duration: '5:30',
-        url: 'https://example.com/video1',
+        url: '#',
         date: '2025-07-20'
     }
 ];
@@ -237,13 +237,15 @@ const mockMatchData: MatchDetails[] = [
 export const fetchLiveScores = async (): Promise<MatchDetails[]> => {
     try {
         if (MOCK_DATA) {
-            return mockMatchData;
+            // Return mock data immediately without any network calls
+            return Promise.resolve(mockMatchData);
         }
         const response = await axios.get(`${API_BASE_URL}/live-scores`);
         return response.data;
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        throw new Error('Error fetching live scores: ' + errorMessage);
+        console.warn('API call failed, returning mock data:', error);
+        // Return mock data as fallback
+        return mockMatchData;
     }
 };
 
@@ -252,38 +254,40 @@ export const fetchMatchDetails = async (matchId: string): Promise<MatchDetails> 
         if (MOCK_DATA) {
             const match = mockMatchData.find(m => m.id === matchId);
             if (!match) throw new Error('Match not found');
-            return match;
+            return Promise.resolve(match);
         }
         const response = await axios.get(`${API_BASE_URL}/matches/${matchId}`);
         return response.data;
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        throw new Error('Error fetching match details: ' + errorMessage);
+        console.warn('API call failed, returning mock data:', error);
+        const match = mockMatchData.find(m => m.id === matchId);
+        if (!match) throw new Error('Match not found');
+        return match;
     }
 };
 
 export const fetchLatestNews = async (): Promise<NewsArticle[]> => {
     try {
         if (MOCK_DATA) {
-            return mockNewsData;
+            return Promise.resolve(mockNewsData);
         }
         const response = await axios.get(`${API_BASE_URL}/news`);
         return response.data;
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        throw new Error('Error fetching news: ' + errorMessage);
+        console.warn('API call failed, returning mock data:', error);
+        return mockNewsData;
     }
 };
 
 export const fetchFeaturedVideos = async (): Promise<FeaturedVideo[]> => {
     try {
         if (MOCK_DATA) {
-            return mockVideosData;
+            return Promise.resolve(mockVideosData);
         }
         const response = await axios.get(`${API_BASE_URL}/videos/featured`);
         return response.data;
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        throw new Error('Error fetching videos: ' + errorMessage);
+        console.warn('API call failed, returning mock data:', error);
+        return mockVideosData;
     }
 };

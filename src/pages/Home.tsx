@@ -54,6 +54,38 @@ const Home: React.FC = () => {
   return (
     <>
       <main className="container mx-auto px-4 py-6">
+        {/* Trending News Ticker */}
+        <section className="mb-6">
+          <div className="bg-red-600 text-white py-2 px-4 rounded-lg shadow-lg overflow-hidden">
+            <div className="flex items-center">
+              {/* Mobile Icon Version */}
+              <div className="bg-red-900 px-2 py-1 rounded text-sm font-bold mr-3 flex-shrink-0 block sm:hidden flex items-center justify-center">
+                <svg className="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                </svg>
+              </div>
+              {/* Desktop Text Version */}
+              <div className="bg-red-900 px-3 py-1 rounded text-sm font-bold mr-4 flex-shrink-0 z-10 hidden sm:block">
+                TRENDING
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <div className="flex animate-scroll whitespace-nowrap">
+                  <span className="mr-8">🏏 Rohit Sharma's masterclass leads India to 7-wicket victory over England at Lord's</span>
+                  <span className="mr-8">⚡ Babar Azam becomes fastest to 5000 ODI runs, breaks Kohli's record</span>
+                  <span className="mr-8">🎯 Australia announces 15-member squad for upcoming Ashes series</span>
+                  <span className="mr-8">🔥 Jasprit Bumrah returns to Test cricket after 8-month injury layoff</span>
+                  <span className="mr-8">📈 IPL 2025: Mumbai Indians retain Bumrah for ₹18 crore in mega auction</span>
+                  <span className="mr-8">🏆 New Zealand completes historic 3-0 whitewash against South Africa</span>
+                  <span className="mr-8">⭐ Ben Stokes announces retirement from ODI cricket to focus on Tests</span>
+                  <span className="mr-8">🌟 Shubman Gill named as India's vice-captain for T20I series</span>
+                  <span className="mr-8">🏟️ Eden Gardens to host pink-ball Test between India and Bangladesh</span>
+                  <span className="mr-8">💥 Jos Buttler's explosive 150* powers England to victory in 2nd ODI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Live Matches Section */}
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Live Matches</h2>

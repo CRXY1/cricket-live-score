@@ -19,9 +19,6 @@ const Header: React.FC = () => {
               <Link to="/" className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
                 CricXL
               </Link>
-              <div className="hidden sm:block px-2 py-1 rounded-full text-xs font-medium bg-blue-500/20 border border-blue-400/20 text-blue-100">
-                LIVE
-              </div>
             </div>
             
             {/* Desktop Navigation */}
