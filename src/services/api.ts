@@ -9,25 +9,80 @@ const API_BASE_URL = 'https://api.cricket.com'; // Replace with the actual API e
 const mockNewsData: NewsArticle[] = [
     {
         id: '1',
-        title: "India Triumph in Thrilling Last-Over Finish",
-        summary: "Virat Kohli leads India to victory with a masterful century",
-        content: "In a spectacular display of batting...",
-        author: "John Smith",
-        date: "2025-07-20",
-        image: "/api/placeholder/400/250",
+        title: "Kohli's Masterclass Powers India to Victory",
+        summary: "Virat Kohli's unbeaten 112 leads India to a thrilling 7-wicket victory over Australia at the MCG",
+        content: "In a spectacular display of batting prowess, Virat Kohli reminded the cricket world why he's considered one of the greatest of all time. Chasing Australia's total of 284, India looked in trouble at 145/3 before Kohli took charge. His unbeaten 112 off 98 balls, studded with 12 fours and 2 sixes, guided India home with 4 balls to spare. The knock was vintage Kohli - calculated aggression mixed with clinical precision...",
+        author: "Ravi Shastri",
+        date: "2025-07-23",
+        image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
         category: "match-report",
-        tags: ["India", "Australia", "ODI"]
+        tags: ["India", "Australia", "ODI", "Virat Kohli"]
     },
     {
         id: '2',
-        title: 'T20 World Cup 2025: Schedule Announced',
-        summary: 'ICC reveals complete schedule for upcoming T20 World Cup',
-        content: 'The International Cricket Council today announced...',
-        author: 'Jane Doe',
-        date: '2025-07-19',
-        image: '/api/placeholder/400/250',
+        title: 'T20 World Cup 2025: Complete Schedule Revealed',
+        summary: 'ICC announces fixtures for the most anticipated cricket tournament with matches across 8 venues',
+        content: 'The International Cricket Council today unveiled the complete schedule for the T20 World Cup 2025, set to be held across India from October 15 to November 20. The tournament will feature 16 teams competing in 45 matches across 8 iconic venues including Eden Gardens, Wankhede Stadium, and the newly renovated Narendra Modi Stadium...',
+        author: 'Harsha Bhogle',
+        date: '2025-07-22',
+        image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
         category: 'news',
-        tags: ['T20 World Cup', 'ICC']
+        tags: ['T20 World Cup', 'ICC', 'Schedule']
+    },
+    {
+        id: '4',
+        title: 'Babar Azam Creates History with Record-Breaking Century',
+        summary: 'Pakistan captain becomes youngest to score 15 ODI centuries, surpassing Virat Kohli\'s record',
+        content: 'Pakistan captain Babar Azam etched his name in cricket history books with a sublime century against New Zealand at Karachi. The elegant right-hander reached the milestone in just 103 balls, becoming the youngest player ever to score 15 ODI centuries at the age of 28 years and 234 days, breaking Virat Kohli\'s previous record...',
+        author: 'Wasim Akram',
+        date: '2025-07-20',
+        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        category: 'match-report',
+        tags: ['Pakistan', 'Babar Azam', 'Record', 'Century']
+    },
+    {
+        id: '5',
+        title: 'Women\'s Cricket Revolution: Record TV Viewership',
+        summary: 'Women\'s T20I series between India and England breaks all previous viewership records',
+        content: 'The ongoing Women\'s T20I series between India and England has shattered all previous television viewership records for women\'s cricket. The opening match attracted over 50 million viewers globally, marking a watershed moment for the women\'s game. Star performances from Smriti Mandhana and Nat Sciver-Brunt have captivated audiences worldwide...',
+        author: 'Lisa Sthalekar',
+        date: '2025-07-19',
+        image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        category: 'feature',
+        tags: ['Women\'s Cricket', 'India', 'England', 'T20I']
+    },
+    {
+        id: '6',
+        title: 'IPL 2025 Mega Auction: MI Retains Bumrah for ₹18 Crore',
+        summary: 'Mumbai Indians make Jasprit Bumrah their most expensive retention ahead of mega auction',
+        content: 'Mumbai Indians have made a statement of intent by retaining pace ace Jasprit Bumrah for a whopping ₹18 crore ahead of the IPL 2025 mega auction. The five-time champions also retained captain Rohit Sharma (₹16 crore) and explosive all-rounder Hardik Pandya (₹15 crore). The retention list showcases MI\'s commitment to their core Indian players...',
+        author: 'Sunil Gavaskar',
+        date: '2025-07-18',
+        image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        category: 'news',
+        tags: ['IPL', 'Mumbai Indians', 'Jasprit Bumrah', 'Auction']
+    },
+    {
+        id: '7',
+        title: 'New Zealand Complete Historic Series Whitewash',
+        summary: 'Black Caps achieve remarkable 3-0 victory over South Africa in Test series',
+        content: 'New Zealand cricket team etched their names in history books by completing a stunning 3-0 Test series whitewash against South Africa at home. The victory marks New Zealand\'s first-ever clean sweep against the Proteas in a Test series. Captain Tim Southee led from the front with exceptional bowling performances throughout the series...',
+        author: 'Ian Smith',
+        date: '2025-07-17',
+        image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        category: 'match-report',
+        tags: ['New Zealand', 'South Africa', 'Test', 'Series']
+    },
+    {
+        id: '8',
+        title: 'Ben Stokes Announces ODI Retirement',
+        summary: 'England all-rounder calls time on 50-over career to focus on Test cricket',
+        content: 'England Test captain Ben Stokes has announced his retirement from One Day International cricket with immediate effect. The 32-year-old all-rounder wants to concentrate on Test cricket and manage his workload better. Stokes finishes his ODI career with 2,919 runs and 74 wickets in 105 matches, including the match-winning performance in the 2019 World Cup final...',
+        author: 'Michael Atherton',
+        date: '2025-07-16',
+        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        category: 'news',
+        tags: ['England', 'Ben Stokes', 'Retirement', 'ODI']
     }
 ];
 
@@ -35,10 +90,34 @@ const mockVideosData: FeaturedVideo[] = [
     {
         id: '1',
         title: 'Top 10 Catches of the Week',
-        thumbnail: '/api/placeholder/300/200',
+        thumbnail: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80',
         duration: '5:30',
         url: '#',
-        date: '2025-07-20'
+        date: '2025-07-23'
+    },
+    {
+        id: '2',
+        title: 'Kohli\'s Match-Winning 112 Highlights',
+        thumbnail: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80',
+        duration: '8:45',
+        url: '#',
+        date: '2025-07-23'
+    },
+    {
+        id: '3',
+        title: 'Bumrah\'s Comeback Story',
+        thumbnail: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80',
+        duration: '12:20',
+        url: '#',
+        date: '2025-07-21'
+    },
+    {
+        id: '4',
+        title: 'Women\'s Cricket Best Moments',
+        thumbnail: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80',
+        duration: '6:15',
+        url: '#',
+        date: '2025-07-19'
     }
 ];
 
