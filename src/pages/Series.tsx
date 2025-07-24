@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 interface SeriesData {
   id: string;
@@ -132,7 +133,7 @@ const Series: React.FC = () => {
   };
 
   const SeriesCard: React.FC<{ series: SeriesData }> = ({ series }) => (
-    <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-2">
+    <div className="group bg-white dark:bg-dark-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-dark-900/20 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-dark-700 hover:border-blue-200 dark:hover:border-blue-600/30 transform hover:-translate-y-2">
       {/* Series Image */}
       <div className="relative h-48 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -163,7 +164,7 @@ const Series: React.FC = () => {
       {/* Series Content */}
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -171,21 +172,21 @@ const Series: React.FC = () => {
             <span className="text-sm font-medium">{series.venue}</span>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-500">Matches</div>
-            <div className="font-bold text-gray-800">{series.matchesPlayed}/{series.totalMatches}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">Matches</div>
+            <div className="font-bold text-gray-800 dark:text-gray-100">{series.matchesPlayed}/{series.totalMatches}</div>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{series.description}</p>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{series.description}</p>
 
         {/* Progress Bar */}
         {series.status !== 'Upcoming' && (
           <div className="mb-4">
-            <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
               <span>Progress</span>
               <span>{series.progress}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-dark-600 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                 style={{ width: `${series.progress}%` }}
@@ -196,11 +197,11 @@ const Series: React.FC = () => {
 
         {/* Current Leader */}
         {series.currentLeader && series.status !== 'Upcoming' && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
-            <svg className="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800/30">
+            <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-sm font-semibold text-yellow-800">
+            <span className="text-sm font-semibold text-yellow-800 dark:text-yellow-300">
               {series.status === 'Completed' ? 'Winner: ' : 'Leading: '}
               {series.currentLeader}
             </span>
@@ -222,14 +223,14 @@ const Series: React.FC = () => {
   );
 
   const LoadingCard = () => (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 animate-pulse">
-      <div className="h-48 bg-gray-300"></div>
+    <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-dark-700 animate-pulse">
+      <div className="h-48 bg-gray-300 dark:bg-dark-600"></div>
       <div className="p-6">
-        <div className="h-4 bg-gray-300 rounded mb-2"></div>
-        <div className="h-3 bg-gray-300 rounded mb-4 w-3/4"></div>
-        <div className="h-3 bg-gray-300 rounded mb-2"></div>
-        <div className="h-3 bg-gray-300 rounded mb-4 w-1/2"></div>
-        <div className="h-10 bg-gray-300 rounded"></div>
+        <div className="h-4 bg-gray-300 dark:bg-dark-600 rounded mb-2"></div>
+        <div className="h-3 bg-gray-300 dark:bg-dark-600 rounded mb-4 w-3/4"></div>
+        <div className="h-3 bg-gray-300 dark:bg-dark-600 rounded mb-2"></div>
+        <div className="h-3 bg-gray-300 dark:bg-dark-600 rounded mb-4 w-1/2"></div>
+        <div className="h-10 bg-gray-300 dark:bg-dark-600 rounded"></div>
       </div>
     </div>
   );
@@ -244,20 +245,21 @@ const Series: React.FC = () => {
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      {/* Page Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
+    <>
+      <main className="container mx-auto px-4 py-8">
+        {/* Page Header */}
+        <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           Cricket Series
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Follow all the major cricket series happening around the world. From Test championships to T20I tournaments.
         </p>
       </div>
 
       {/* Tab Navigation */}
       <div className="flex justify-center mb-8">
-        <div className="bg-gray-100 p-1 rounded-2xl flex">
+        <div className="bg-gray-100 dark:bg-dark-800 p-1 rounded-2xl flex">
           {[
             { key: 'live', label: 'Live Series', count: activeSeries.length },
             { key: 'upcoming', label: 'Upcoming', count: upcomingSeries.length },
@@ -268,13 +270,15 @@ const Series: React.FC = () => {
               onClick={() => setActiveTab(tab.key as any)}
               className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
                 activeTab === tab.key
-                  ? 'bg-white text-blue-600 shadow-lg transform scale-105'
-                  : 'text-gray-600 hover:text-blue-600'
+                  ? 'bg-white dark:bg-dark-700 text-blue-600 dark:text-blue-400 shadow-lg transform scale-105'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
               }`}
             >
               {tab.label}
               <span className={`px-2 py-1 rounded-full text-xs ${
-                activeTab === tab.key ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'
+                activeTab === tab.key 
+                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' 
+                  : 'bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300'
               }`}>
                 {tab.count}
               </span>
@@ -307,31 +311,9 @@ const Series: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Featured Series Banner */}
-      {activeSeries.length > 0 && activeTab === 'live' && (
-        <div className="mt-16 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 rounded-3xl p-8 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/10"></div>
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-              <span className="text-blue-100 font-semibold">FEATURED LIVE SERIES</span>
-            </div>
-            <h2 className="text-4xl font-bold mb-4">{activeSeries[0].name}</h2>
-            <p className="text-blue-100 text-lg mb-6 max-w-2xl">{activeSeries[0].description}</p>
-            <Link
-              to={`/series/${activeSeries[0].id}`}
-              className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Watch Live Coverage
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      )}
     </main>
+    <Footer />
+    </>
   );
 };
 

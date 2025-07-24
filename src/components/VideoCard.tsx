@@ -7,17 +7,17 @@ interface VideoCardProps {
 
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
     return (
-        <div className="group relative rounded-lg overflow-hidden shadow-md">
+        <div className="group relative bg-white dark:bg-dark-800 border dark:border-dark-700 rounded-lg overflow-hidden shadow-md dark:shadow-xl transition-all duration-200 hover:shadow-xl dark:hover:shadow-2xl hover:scale-[1.02]">
             <div className="relative">
                 <img 
                     src={video.thumbnail} 
                     alt={video.title}
                     className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105"
                 />
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 px-2 py-1 rounded text-white text-sm">
+                <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 dark:bg-black/60 px-2 py-1 rounded text-white text-sm">
                     {video.duration}
                 </div>
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-200">
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 dark:group-hover:bg-opacity-40 transition-opacity duration-200">
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg 
                             className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" 
@@ -42,8 +42,8 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
                 </div>
             </div>
             <div className="p-4">
-                <h3 className="font-semibold text-gray-800 mb-1">{video.title}</h3>
-                <span className="text-sm text-gray-500">
+                <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">{video.title}</h3>
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                     {new Date(video.date).toLocaleDateString()}
                 </span>
             </div>
