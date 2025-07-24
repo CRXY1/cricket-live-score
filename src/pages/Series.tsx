@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 
@@ -26,7 +26,23 @@ const Series: React.FC = () => {
   const [completedSeries, setCompletedSeries] = useState<SeriesData[]>([]);
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
   const [loading, setLoading] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchParams] = useSearchParams();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   const highlightSeries = searchParams.get('highlight');
 
   useEffect(() => {
@@ -296,32 +312,101 @@ const Series: React.FC = () => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex justify-center mb-8">
-        <div className="bg-gray-100 dark:bg-dark-800 p-1 rounded-2xl flex">
-          {[
-            { key: 'live', label: 'Live Series', count: activeSeries.length },
-            { key: 'upcoming', label: 'Upcoming', count: upcomingSeries.length },
-            { key: 'completed', label: 'Completed', count: completedSeries.length }
-          ].map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
-              className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
-                activeTab === tab.key
-                  ? 'bg-white dark:bg-dark-700 text-blue-600 dark:text-blue-400 shadow-lg transform scale-105'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-              }`}
-            >
-              {tab.label}
-              <span className={`px-2 py-1 rounded-full text-xs ${
-                activeTab === tab.key 
-                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' 
-                  : 'bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300'
-              }`}>
-                {tab.count}
+      <div className="mb-8">
+        {/* Desktop Tabs - Hidden on mobile */}
+        <div className="hidden md:flex justify-center">
+          <div className="bg-gray-100 dark:bg-dark-800 p-1 rounded-2xl flex">
+            {[
+              { key: 'live', label: 'Live Series', count: activeSeries.length },
+              { key: 'upcoming', label: 'Upcoming', count: upcomingSeries.length },
+              { key: 'completed', label: 'Completed', count: completedSeries.length }
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as any)}
+                className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 ${
+                  activeTab === tab.key
+                    ? 'bg-white dark:bg-dark-700 text-blue-600 dark:text-blue-400 shadow-lg transform scale-105'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                }`}
+              >
+                {tab.label}
+                <span className={`px-2 py-1 rounded-full text-xs ${
+                  activeTab === tab.key 
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' 
+                    : 'bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300'
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Dropdown - Hidden on desktop */}
+        <div className="md:hidden relative" ref={dropdownRef}>
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full bg-gray-100 dark:bg-dark-800 p-4 rounded-2xl font-semibold text-gray-800 dark:text-gray-200 flex items-center justify-between transition-all duration-200 hover:bg-gray-200 dark:hover:bg-dark-700 transform hover:scale-[1.02]"
+          >
+            <div className="flex items-center gap-2">
+              <span>
+                {activeTab === 'live' ? 'Live Series' : 
+                 activeTab === 'upcoming' ? 'Upcoming' : 'Completed'}
               </span>
-            </button>
-          ))}
+              <span className="px-2 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 transition-all duration-200">
+                {activeTab === 'live' ? activeSeries.length : 
+                 activeTab === 'upcoming' ? upcomingSeries.length : completedSeries.length}
+              </span>
+            </div>
+            <svg 
+              className={`w-5 h-5 transition-all duration-300 ease-in-out ${isDropdownOpen ? 'rotate-180 text-blue-600 dark:text-blue-400' : 'rotate-0'}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          <div className={`absolute top-full left-0 right-0 mt-2 bg-white dark:bg-dark-800 rounded-2xl shadow-lg border border-gray-200 dark:border-dark-700 z-10 transition-all duration-300 transform origin-top ${
+            isDropdownOpen 
+              ? 'opacity-100 scale-y-100 translate-y-0' 
+              : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
+          }`}>
+            {[
+              { key: 'live', label: 'Live Series', count: activeSeries.length },
+              { key: 'upcoming', label: 'Upcoming', count: upcomingSeries.length },
+              { key: 'completed', label: 'Completed', count: completedSeries.length }
+            ].map((tab, index) => (
+              <button
+                key={tab.key}
+                onClick={() => {
+                  setActiveTab(tab.key as any);
+                  setIsDropdownOpen(false);
+                }}
+                className={`w-full px-4 py-3 text-left font-semibold flex items-center justify-between transition-all duration-200 transform hover:scale-[1.02] ${
+                  activeTab === tab.key
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-dark-700'
+                } ${index === 0 ? 'rounded-t-2xl' : ''} ${index === 2 ? 'rounded-b-2xl' : ''}`}
+                style={{ 
+                  animationDelay: `${index * 50}ms`,
+                  animation: isDropdownOpen ? `slideInDown 0.3s ease-out ${index * 50}ms both` : 'none'
+                }}
+              >
+                <span>{tab.label}</span>
+                <span className={`px-2 py-1 rounded-full text-xs transition-all duration-200 ${
+                  activeTab === tab.key 
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' 
+                    : 'bg-gray-200 dark:bg-dark-600 text-gray-600 dark:text-gray-300'
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
