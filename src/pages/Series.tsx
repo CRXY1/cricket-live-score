@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 interface SeriesData {
@@ -26,6 +26,8 @@ const Series: React.FC = () => {
   const [completedSeries, setCompletedSeries] = useState<SeriesData[]>([]);
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  const highlightSeries = searchParams.get('highlight');
 
   useEffect(() => {
     // Mock data for demonstration - replace with actual API calls
@@ -111,8 +113,30 @@ const Series: React.FC = () => {
       setUpcomingSeries(mockUpcomingSeries);
       setCompletedSeries(mockCompletedSeries);
       setLoading(false);
+      
+      // Handle highlight parameter - switch to appropriate tab based on series
+      if (highlightSeries) {
+        const allSeries = [...mockActiveSeries, ...mockUpcomingSeries, ...mockCompletedSeries];
+        const targetSeries = allSeries.find(series => 
+          series.name.toLowerCase().includes(highlightSeries.toLowerCase()) ||
+          series.id === highlightSeries
+        );
+        
+        if (targetSeries) {
+          setActiveTab(targetSeries.status === 'Live' ? 'live' : 
+                     targetSeries.status === 'Upcoming' ? 'upcoming' : 'completed');
+          
+          // Scroll to the series card after a short delay
+          setTimeout(() => {
+            const element = document.getElementById(`series-${targetSeries.id}`);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 100);
+        }
+      }
     }, 1000);
-  }, []);
+  }, [highlightSeries]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -132,8 +156,21 @@ const Series: React.FC = () => {
     }
   };
 
-  const SeriesCard: React.FC<{ series: SeriesData }> = ({ series }) => (
-    <div className="group bg-white dark:bg-dark-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-dark-900/20 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-dark-700 hover:border-blue-200 dark:hover:border-blue-600/30 transform hover:-translate-y-2">
+  const SeriesCard: React.FC<{ series: SeriesData }> = ({ series }) => {
+    const isHighlighted = highlightSeries && (
+      series.name.toLowerCase().includes(highlightSeries.toLowerCase()) ||
+      series.id === highlightSeries
+    );
+
+    return (
+      <div 
+        id={`series-${series.id}`}
+        className={`group bg-white dark:bg-dark-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-dark-900/20 transition-all duration-500 overflow-hidden border transform hover:-translate-y-2 ${
+          isHighlighted 
+            ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800 border-blue-400 dark:border-blue-600 shadow-2xl' 
+            : 'border-gray-100 dark:border-dark-700 hover:border-blue-200 dark:hover:border-blue-600/30'
+        }`}
+      >
       {/* Series Image */}
       <div className="relative h-48 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -220,7 +257,8 @@ const Series: React.FC = () => {
         </Link>
       </div>
     </div>
-  );
+    );
+  };
 
   const LoadingCard = () => (
     <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-dark-700 animate-pulse">

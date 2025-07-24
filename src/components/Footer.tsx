@@ -9,9 +9,15 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-bold mb-4">Key Series</h3>
             <ul className="space-y-2 text-gray-300 dark:text-gray-400">
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">IPL 2025</li>
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">World Cup 2025</li>
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">Ashes 2025</li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <Link to="/series?highlight=1">Border-Gavaskar Trophy 2025</Link>
+              </li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <Link to="/series?highlight=2">England vs South Africa ODI Series</Link>
+              </li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <Link to="/series?highlight=3">Pakistan vs New Zealand T20I Series</Link>
+              </li>
             </ul>
           </div>
           <div>
