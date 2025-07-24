@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import LiveScores from './pages/LiveScores';
 import Series from './pages/Series';
+import Teams from './pages/Teams';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/live-scores" element={<LiveScores />} />
           <Route path="/series" element={<Series />} />
+          <Route path="/teams" element={<Teams />} />
         </Routes>
       </div>
     </Router>

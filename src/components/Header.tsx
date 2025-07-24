@@ -45,21 +45,20 @@ const Header: React.FC = () => {
                   }`}></span>
                 </span>
               </Link>
-              <a href="#" className="nav-link group">
+              <Link 
+                to="/teams" 
+                className={`nav-link group ${isActive('/teams') ? 'text-blue-300' : ''}`}
+              >
                 <span className="relative">
                   Teams
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-400 transition-all duration-300 ${
+                    isActive('/teams') ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
                 </span>
-              </a>
+              </Link>
               <a href="#" className="nav-link group">
                 <span className="relative">
                   News
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
-                </span>
-              </a>
-              <a href="#" className="nav-link group">
-                <span className="relative">
-                  Videos
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
                 </span>
               </a>
@@ -116,12 +115,6 @@ const Header: React.FC = () => {
                   <span className="flex items-center space-x-2">
                     <span>📰</span>
                     <span>News</span>
-                  </span>
-                </a>
-                <a href="#" className="nav-link py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:translate-x-2 hover:shadow-lg backdrop-blur-sm bg-white/5">
-                  <span className="flex items-center space-x-2">
-                    <span>🎥</span>
-                    <span>Videos</span>
                   </span>
                 </a>
               </nav>
