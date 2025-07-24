@@ -56,12 +56,17 @@ const Header: React.FC = () => {
                   }`}></span>
                 </span>
               </Link>
-              <a href="#" className="nav-link group">
+              <Link 
+                to="/news" 
+                className={`nav-link group ${isActive('/news') ? 'text-blue-300' : ''}`}
+              >
                 <span className="relative">
                   News
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-400 transition-all duration-300 ${
+                    isActive('/news') ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}></span>
                 </span>
-              </a>
+              </Link>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -105,18 +110,30 @@ const Header: React.FC = () => {
                     <span>Series</span>
                   </span>
                 </Link>
-                <a href="#" className="nav-link py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:translate-x-2 hover:shadow-lg backdrop-blur-sm bg-white/5">
+                <Link 
+                  to="/teams" 
+                  className={`nav-link py-3 px-4 rounded-lg transition-all duration-200 transform hover:translate-x-2 hover:shadow-lg backdrop-blur-sm ${
+                    isActive('/teams') ? 'bg-white/30' : 'bg-white/5 hover:bg-white/20'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   <span className="flex items-center space-x-2">
                     <span>👥</span>
                     <span>Teams</span>
                   </span>
-                </a>
-                <a href="#" className="nav-link py-3 px-4 rounded-lg hover:bg-white/20 transition-all duration-200 transform hover:translate-x-2 hover:shadow-lg backdrop-blur-sm bg-white/5">
+                </Link>
+                <Link 
+                  to="/news" 
+                  className={`nav-link py-3 px-4 rounded-lg transition-all duration-200 transform hover:translate-x-2 hover:shadow-lg backdrop-blur-sm ${
+                    isActive('/news') ? 'bg-white/30' : 'bg-white/5 hover:bg-white/20'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   <span className="flex items-center space-x-2">
                     <span>📰</span>
                     <span>News</span>
                   </span>
-                </a>
+                </Link>
               </nav>
             </div>
           </div>
@@ -145,6 +162,22 @@ const Header: React.FC = () => {
                 <li className="text-gray-400">/</li>
                 <li>
                   <span className="text-gray-700 font-medium">Series</span>
+                </li>
+              </>
+            )}
+            {location.pathname === '/teams' && (
+              <>
+                <li className="text-gray-400">/</li>
+                <li>
+                  <span className="text-gray-700 font-medium">Teams</span>
+                </li>
+              </>
+            )}
+            {location.pathname === '/news' && (
+              <>
+                <li className="text-gray-400">/</li>
+                <li>
+                  <span className="text-gray-700 font-medium">News</span>
                 </li>
               </>
             )}
