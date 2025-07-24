@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MatchDetails } from '../types/cricket';
 
 interface ScoreboardProps {
@@ -7,6 +8,12 @@ interface ScoreboardProps {
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const navigate = useNavigate();
+
+    const handleFullScorecard = () => {
+        // Navigate to full scorecard page and pass match data
+        navigate(`/scorecard/${match.id}`, { state: { match } });
+    };
 
     return (
         <div
@@ -71,14 +78,33 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
 
                 <div className="flex justify-center items-center pt-2 border-t dark:border-dark-600 mt-auto">
                     <div className="flex items-center space-x-4">
-                        <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                            Overs: <span className="text-gray-800 dark:text-gray-200 font-bold">{match.teamA.overs}</span>
-                        </span>
                         <button
-                            className="text-blue-600 dark:text-blue-400 text-xs font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
+                            className="text-blue-600 dark:text-blue-400 text-xs font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 flex items-center space-x-1"
                             onClick={() => setIsExpanded(!isExpanded)}
                         >
-                            {isExpanded ? 'Show Less' : 'Show More'}
+                            <span>Summary</span>
+                            <svg 
+                                className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <button
+                            onClick={handleFullScorecard}
+                            className="text-blue-600 dark:text-blue-400 text-xs font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 flex items-center space-x-1 cursor-pointer"
+                        >
+                            <span>Full scorecard</span>
+                            <svg 
+                                className="w-3 h-3"
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
                         </button>
                     </div>
                 </div>
