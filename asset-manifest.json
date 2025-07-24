@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/cricket-live-score/static/css/main.a5147b82.css",
-    "main.js": "/cricket-live-score/static/js/main.79cfa576.js",
+    "main.css": "/cricket-live-score/static/css/main.8274b7aa.css",
+    "main.js": "/cricket-live-score/static/js/main.ec4ca724.js",
     "index.html": "/cricket-live-score/index.html",
-    "main.a5147b82.css.map": "/cricket-live-score/static/css/main.a5147b82.css.map",
-    "main.79cfa576.js.map": "/cricket-live-score/static/js/main.79cfa576.js.map"
+    "main.8274b7aa.css.map": "/cricket-live-score/static/css/main.8274b7aa.css.map",
+    "main.ec4ca724.js.map": "/cricket-live-score/static/js/main.ec4ca724.js.map"
   },
   "entrypoints": [
-    "static/css/main.a5147b82.css",
-    "static/js/main.79cfa576.js"
+    "static/css/main.8274b7aa.css",
+    "static/js/main.ec4ca724.js"
   ]
 }
