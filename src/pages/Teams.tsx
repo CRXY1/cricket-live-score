@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from '../components/Footer';
+import { useFollowedTeams } from '../contexts/FollowedTeamsContext';
 
 interface Team {
   id: string;
@@ -18,6 +19,8 @@ interface Team {
 }
 
 const Teams: React.FC = () => {
+  const { isFollowing, toggleFollow } = useFollowedTeams();
+  
   const teams: Team[] = [
     {
       id: '1',
@@ -225,7 +228,7 @@ const Teams: React.FC = () => {
               </p>
 
               {/* Next Match */}
-              <div className="bg-gray-50 dark:bg-dark-700 rounded-lg p-4 border dark:border-dark-600">
+              <div className="bg-gray-50 dark:bg-dark-700 rounded-lg p-4 border dark:border-dark-600 mb-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Next Match</p>
@@ -234,6 +237,33 @@ const Teams: React.FC = () => {
                   <div className="w-3 h-3 bg-green-500 dark:bg-green-400 rounded-full animate-pulse"></div>
                 </div>
               </div>
+
+              {/* Follow Button */}
+              <button
+                onClick={() => toggleFollow(team.id)}
+                className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2 ${
+                  isFollowing(team.id)
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105'
+                    : 'bg-gray-100 hover:bg-gray-200 dark:bg-dark-600 dark:hover:bg-dark-500 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-dark-500'
+                }`}
+              >
+                <svg 
+                  className={`w-5 h-5 ${isFollowing(team.id) ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} 
+                  fill={isFollowing(team.id) ? 'currentColor' : 'none'} 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d={isFollowing(team.id) ? "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" : "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"}
+                  />
+                </svg>
+                <span>
+                  {isFollowing(team.id) ? 'Following' : 'Follow Team'}
+                </span>
+              </button>
             </div>
           </div>
         ))}

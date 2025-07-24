@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import Scoreboard from "../components/Scoreboard";
 import NewsCard from "../components/NewsCard";
 import VideoCard from "../components/VideoCard";
+import FavouriteTeams from "../components/FavouriteTeams";
 import Footer from "../components/Footer";
 import { fetchLiveScores, fetchLatestNews, fetchFeaturedVideos } from "../services/api";
 import { MatchDetails, NewsArticle, FeaturedVideo } from "../types/cricket";
+import { useFollowedTeams } from "../contexts/FollowedTeamsContext";
 
 const Home: React.FC = () => {
+  const { followedTeams } = useFollowedTeams();
   const [scores, setScores] = useState<MatchDetails[]>([]);
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [videos, setVideos] = useState<FeaturedVideo[]>([]);
@@ -186,6 +189,9 @@ const Home: React.FC = () => {
             )}
           </div>
         </section>
+
+        {/* Favourite Teams Section - Only show if user is following teams */}
+        {followedTeams.length > 0 && <FavouriteTeams />}
 
         {/* Featured News and Videos Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
