@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { fetchLatestNews } from '../services/api';
@@ -8,7 +8,23 @@ const News: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const loadNews = async () => {
@@ -70,7 +86,8 @@ const News: React.FC = () => {
 
         {/* Category Filter */}
         <div className="mb-12">
-          <div className="flex flex-wrap justify-center gap-4">
+          {/* Desktop Categories - Hidden on mobile */}
+          <div className="hidden md:flex flex-wrap justify-center gap-4">
             {categories.map((category) => (
               <button
                 key={category.id}
@@ -85,6 +102,60 @@ const News: React.FC = () => {
                 <span>{category.name}</span>
               </button>
             ))}
+          </div>
+
+          {/* Mobile Dropdown - Hidden on desktop */}
+          <div className="md:hidden relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 p-4 rounded-2xl font-semibold text-gray-800 dark:text-gray-200 flex items-center justify-between transition-all duration-200 hover:border-blue-300 dark:hover:border-blue-600 transform hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl">
+                  {categories.find(cat => cat.id === selectedCategory)?.icon}
+                </span>
+                <span>
+                  {categories.find(cat => cat.id === selectedCategory)?.name}
+                </span>
+              </div>
+              <svg 
+                className={`w-5 h-5 transition-all duration-300 ease-in-out ${isDropdownOpen ? 'rotate-180 text-blue-600 dark:text-blue-400' : 'rotate-0'}`} 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            <div className={`absolute top-full left-0 right-0 mt-2 bg-white dark:bg-dark-800 rounded-2xl shadow-lg border border-gray-200 dark:border-dark-700 z-10 transition-all duration-300 transform origin-top ${
+              isDropdownOpen 
+                ? 'opacity-100 scale-y-100 translate-y-0' 
+                : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
+            }`}>
+              {categories.map((category, index) => (
+                <button
+                  key={category.id}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full px-4 py-3 text-left font-semibold flex items-center gap-3 transition-all duration-200 transform hover:scale-[1.02] ${
+                    selectedCategory === category.id
+                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-dark-700'
+                  } ${index === 0 ? 'rounded-t-2xl' : ''} ${index === categories.length - 1 ? 'rounded-b-2xl' : ''}`}
+                  style={{ 
+                    animationDelay: `${index * 50}ms`,
+                    animation: isDropdownOpen ? `slideInDown 0.3s ease-out ${index * 50}ms both` : 'none'
+                  }}
+                >
+                  <span className="text-xl">{category.icon}</span>
+                  <span>{category.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -177,24 +248,6 @@ const News: React.FC = () => {
             <p className="text-gray-600 dark:text-gray-400">No articles match the selected category.</p>
           </div>
         )}
-
-        {/* Newsletter Subscription */}
-        <section className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Never Miss a Story</h2>
-          <p className="text-lg mb-6 max-w-2xl mx-auto">
-            Subscribe to our newsletter and get the latest cricket news delivered straight to your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/30"
-            />
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Subscribe
-            </button>
-          </div>
-        </section>
       </main>
 
       <Footer />

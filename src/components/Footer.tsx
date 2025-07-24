@@ -27,10 +27,10 @@ const Footer: React.FC = () => {
                 <Link to="/live-scores">Live Scores</Link>
               </li>
               <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
-                <Link to="/teams">Teams</Link>
+                <Link to="/series">Series</Link>
               </li>
               <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
-                <Link to="/series">Series</Link>
+                <Link to="/teams">Teams</Link>
               </li>
               <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
                 <Link to="/news">News</Link>
