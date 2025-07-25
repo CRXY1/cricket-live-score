@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-800 dark:bg-dark-950 text-white border-t dark:border-dark-700 mt-12">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-bold mb-4">Key Series</h3>
             <ul className="space-y-2 text-gray-300 dark:text-gray-400">
@@ -38,18 +38,17 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="font-bold mb-4">CricXL Apps</h3>
-            <ul className="space-y-2 text-gray-300 dark:text-gray-400">
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">Android App</li>
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">iOS App</li>
-            </ul>
-          </div>
-          <div>
             <h3 className="font-bold mb-4">Follow Us</h3>
             <ul className="space-y-2 text-gray-300 dark:text-gray-400">
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">Instagram</li>
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">Twitter</li>
-              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">Facebook</li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+              </li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a>
+              </li>
+              <li className="hover:text-white dark:hover:text-gray-200 transition-colors cursor-pointer">
+                <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a>
+              </li>
             </ul>
           </div>
         </div>
