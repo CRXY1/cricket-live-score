@@ -17,6 +17,7 @@ const FullScorecard: React.FC = () => {
   const [loading, setLoading] = useState(!locationState?.match);
   const [activeTab, setActiveTab] = useState<'live' | 'scorecard' | 'commentary' | 'statistics' | 'info'>('live');
   const [activeInnings, setActiveInnings] = useState<'teamA' | 'teamB'>('teamA');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (!locationState?.match && id) {
@@ -164,7 +165,8 @@ const FullScorecard: React.FC = () => {
       {/* Navigation Tabs */}
       <div className="bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-700 sticky top-0 z-10">
         <div className="container mx-auto px-6">
-          <div className="flex space-x-0 overflow-x-auto">
+          {/* Desktop Tabs */}
+          <div className="hidden md:flex space-x-0 overflow-x-auto">
             {[
               { id: 'live', label: 'Live Score', icon: '🔴' },
               { id: 'scorecard', label: 'Scorecard', icon: '📊' },
@@ -185,6 +187,87 @@ const FullScorecard: React.FC = () => {
                 <span>{tab.label}</span>
               </button>
             ))}
+          </div>
+
+          {/* Mobile Dropdown */}
+          <div className="md:hidden relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 rounded-lg border border-gray-200 dark:border-gray-600"
+            >
+              <div className="flex items-center space-x-2">
+                <span>
+                  {activeTab === 'live' ? '🔴' :
+                   activeTab === 'scorecard' ? '📊' :
+                   activeTab === 'commentary' ? '💬' :
+                   activeTab === 'statistics' ? '📈' : 'ℹ️'}
+                </span>
+                <span>
+                  {activeTab === 'live' ? 'Live Score' :
+                   activeTab === 'scorecard' ? 'Scorecard' :
+                   activeTab === 'commentary' ? 'Commentary' :
+                   activeTab === 'statistics' ? 'Statistics' : 'Match Info'}
+                </span>
+              </div>
+              <svg 
+                className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            <div className={`absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg overflow-hidden z-20 transition-all duration-300 ease-in-out ${
+              isDropdownOpen 
+                ? 'opacity-100 visible transform translate-y-0 scale-100' 
+                : 'opacity-0 invisible transform -translate-y-2 scale-95'
+            }`}>
+              {[
+                { id: 'live', label: 'Live Score', icon: '🔴' },
+                { id: 'scorecard', label: 'Scorecard', icon: '📊' },
+                { id: 'commentary', label: 'Commentary', icon: '💬' },
+                { id: 'statistics', label: 'Statistics', icon: '📈' },
+                { id: 'info', label: 'Match Info', icon: 'ℹ️' }
+              ].map((tab, index) => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id as any);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-l-4 border-blue-500'
+                      : 'text-gray-700 dark:text-gray-200'
+                  } ${index === 0 ? 'rounded-t-lg' : ''} ${index === 4 ? 'rounded-b-lg' : ''}`}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                    animation: isDropdownOpen ? 'slideInFromTop 0.3s ease-out forwards' : 'none'
+                  }}
+                >
+                  <span className="text-lg">{tab.icon}</span>
+                  <span>{tab.label}</span>
+                  {activeTab === tab.id && (
+                    <div className="ml-auto">
+                      <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Backdrop to close dropdown when clicking outside */}
+            {isDropdownOpen && (
+              <div 
+                className="fixed inset-0 z-10"
+                onClick={() => setIsDropdownOpen(false)}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -527,92 +610,282 @@ const FullScorecard: React.FC = () => {
 
         {/* Match Info Tab */}
         {activeTab === 'info' && (
-          <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Match Information</h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Match Details</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Format:</span>
-                      <span className="text-gray-900 dark:text-gray-100">{match.matchType}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Venue:</span>
-                      <span className="text-gray-900 dark:text-gray-100">{match.venue}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Series:</span>
-                      <span className="text-gray-900 dark:text-gray-100">{match.series || 'N/A'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Status:</span>
-                      <span className="text-gray-900 dark:text-gray-100">{match.status}</span>
-                    </div>
+          <div className="space-y-8">
+            {/* Hero Header */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 dark:from-blue-800 dark:via-purple-800 dark:to-blue-900 rounded-2xl shadow-2xl">
+              <div className="absolute inset-0 bg-black/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10"></div>
+              <div className="relative px-8 py-12">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Match Information</h3>
+                    <p className="text-blue-100">Complete details about this cricket match</p>
                   </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Officials</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Umpire 1:</span>
-                      <span className="text-gray-900 dark:text-gray-100">A. Smith</span>
+                {/* Quick Stats Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="text-blue-100 text-sm font-medium">Format</div>
+                    <div className="text-white text-lg font-bold">{match.matchType}</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="text-blue-100 text-sm font-medium">Status</div>
+                    <div className="text-white text-lg font-bold capitalize">{match.status}</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="text-blue-100 text-sm font-medium">Teams</div>
+                    <div className="text-white text-lg font-bold">2</div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                    <div className="text-blue-100 text-sm font-medium">Players</div>
+                    <div className="text-white text-lg font-bold">22</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content Grid */}
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Match Details Card */}
+              <div className="lg:col-span-1">
+                <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl border border-gray-200 dark:border-dark-700 overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 px-6 py-4 border-b border-gray-200 dark:border-dark-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100">Match Details</h4>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Umpire 2:</span>
-                      <span className="text-gray-900 dark:text-gray-100">B. Johnson</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Third Umpire:</span>
-                      <span className="text-gray-900 dark:text-gray-100">C. Brown</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Match Referee:</span>
-                      <span className="text-gray-900 dark:text-gray-100">D. Wilson</span>
-                    </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    {[
+                      { icon: "🏏", label: "Format", value: match.matchType },
+                      { icon: "🏟️", label: "Venue", value: match.venue, mobileMultiline: true },
+                      ...(match.series ? [{ icon: "🏆", label: "Series", value: match.series, multiline: true }] : []),
+                      { icon: "📊", label: "Status", value: match.status.charAt(0).toUpperCase() + match.status.slice(1) },
+                      { icon: "🎯", label: "Match Type", value: "International" },
+                      { icon: "⏰", label: "Date", value: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }
+                    ].map((item, index) => (
+                      <div key={index} className={`p-4 bg-gray-50 dark:bg-dark-700 rounded-xl hover:bg-gray-100 dark:hover:bg-dark-650 transition-colors duration-200 border border-gray-200 dark:border-dark-600 ${
+                        item.multiline ? 'block' : 
+                        item.mobileMultiline ? 'block sm:flex sm:items-start sm:justify-between' : 
+                        'flex items-start justify-between'
+                      }`}>
+                        {item.multiline ? (
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-xl flex-shrink-0">{item.icon}</span>
+                              <span className="text-gray-700 dark:text-gray-200 font-medium">{item.label}</span>
+                            </div>
+                            <div className="ml-8 text-gray-900 dark:text-white font-semibold leading-relaxed">{item.value}</div>
+                          </div>
+                        ) : item.mobileMultiline ? (
+                          <div className="space-y-2 sm:space-y-0 sm:flex sm:items-start sm:justify-between sm:space-x-4">
+                            <div className="flex items-center space-x-3 min-w-0 flex-1">
+                              <span className="text-xl flex-shrink-0">{item.icon}</span>
+                              <span className="text-gray-700 dark:text-gray-200 font-medium">{item.label}</span>
+                            </div>
+                            <div className="ml-8 sm:ml-0 text-gray-900 dark:text-white font-semibold leading-relaxed sm:text-right">{item.value}</div>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="flex items-center space-x-3 min-w-0 flex-1">
+                              <span className="text-xl flex-shrink-0">{item.icon}</span>
+                              <span className="text-gray-700 dark:text-gray-200 font-medium">{item.label}</span>
+                            </div>
+                            <span className="text-gray-900 dark:text-white font-semibold text-right ml-4 leading-relaxed">{item.value}</span>
+                          </>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Toss & Conditions</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Toss:</span>
-                      <span className="text-gray-900 dark:text-gray-100">{match.toss || 'N/A'}</span>
+              {/* Officials & Conditions */}
+              <div className="lg:col-span-2 space-y-8">
+                {/* Officials Card */}
+                <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl border border-gray-200 dark:border-dark-700">
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 px-6 py-4 border-b border-gray-200 dark:border-dark-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100">Match Officials</h4>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Weather:</span>
-                      <span className="text-gray-900 dark:text-gray-100">Sunny, 25°C</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Pitch:</span>
-                      <span className="text-gray-900 dark:text-gray-100">Good for Batting</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">Wind:</span>
-                      <span className="text-gray-900 dark:text-gray-100">Light, NE 5 km/h</span>
+                  </div>
+                  <div className="p-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {[
+                        { role: "On-field Umpire", name: "Adrian Smith", icon: "👨‍⚖️" },
+                        { role: "On-field Umpire", name: "Brian Johnson", icon: "👨‍⚖️" },
+                        { role: "Third Umpire", name: "Charlie Brown", icon: "📺" },
+                        { role: "Match Referee", name: "David Wilson", icon: "🏛️" }
+                      ].map((official, index) => (
+                        <div key={index} className="flex items-center space-x-4 p-4 bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-600 rounded-xl hover:shadow-md hover:bg-gray-50 dark:hover:bg-dark-650 transition-all duration-200">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg">
+                            {official.name.split(' ').map(n => n[0]).join('')}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-900 dark:text-white">{official.name}</div>
+                            <div className="text-sm text-gray-700 dark:text-gray-200 flex items-center space-x-1">
+                              <span>{official.icon}</span>
+                              <span>{official.role}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Playing XIs</h4>
-                  <div className="space-y-3">
-                    <div>
-                      <h5 className="text-sm font-medium text-blue-600 dark:text-blue-400">{match.teamA.name}</h5>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        {match.teamA.players.slice(0, 5).map(p => p.name).join(', ')}...
+                {/* Conditions Card */}
+                <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl border border-gray-200 dark:border-dark-700">
+                  <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 px-6 py-4 border-b border-gray-200 dark:border-dark-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100">Match Conditions</h4>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-800/30 dark:to-blue-700/30 p-4 rounded-xl border border-blue-200 dark:border-blue-600/50">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <span className="text-2xl">🎯</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">Toss Result</span>
+                          </div>
+                          <div className="text-gray-800 dark:text-gray-100">{match.toss || `${match.teamA.name} won the toss and elected to bat first`}</div>
+                        </div>
+                        
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-800/30 dark:to-green-700/30 p-4 rounded-xl border border-green-200 dark:border-green-600/50">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <span className="text-2xl">🌿</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">Pitch Report</span>
+                          </div>
+                          <div className="text-gray-800 dark:text-gray-100">Good batting surface with even bounce. Spinners might get assistance later in the day.</div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-800/30 dark:to-yellow-700/30 p-4 rounded-xl border border-yellow-200 dark:border-yellow-600/50">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <span className="text-2xl">☀️</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">Weather</span>
+                          </div>
+                          <div className="text-gray-800 dark:text-gray-100">Sunny conditions, 25°C. Perfect day for cricket with minimal chances of rain.</div>
+                        </div>
+                        
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-800/30 dark:to-purple-700/30 p-4 rounded-xl border border-purple-200 dark:border-purple-600/50">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <span className="text-2xl">💨</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">Wind Conditions</span>
+                          </div>
+                          <div className="text-gray-800 dark:text-gray-100">Light breeze from North-East at 5 km/h. Favorable for fast bowlers.</div>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <h5 className="text-sm font-medium text-green-600 dark:text-green-400">{match.teamB.name}</h5>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        {match.teamB.players.slice(0, 5).map(p => p.name).join(', ')}...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Playing XIs */}
+            <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-dark-700 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 px-6 py-4 border-b border-gray-200 dark:border-dark-700">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">Playing XIs</h4>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Team A */}
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <img 
+                        src={match.teamA.logo || 'https://via.placeholder.com/48?text=A'}
+                        alt={`${match.teamA.name} logo`} 
+                        className="w-12 h-12 rounded-full object-cover ring-4 ring-blue-100 dark:ring-blue-900"
+                        onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/48?text=A'; }}
+                      />
+                      <div>
+                        <h5 className="text-lg font-bold text-blue-600 dark:text-blue-400">{match.teamA.name}</h5>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">11 Players</p>
                       </div>
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      {match.teamA.players.slice(0, 11).map((player, index) => (
+                        <div key={player.id} className="flex items-center space-x-3 p-3 bg-blue-50 dark:bg-blue-800/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-700/30 transition-colors duration-200 border border-blue-200 dark:border-blue-700/50">
+                          <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                            {index + 1}
+                          </div>
+                          <div>
+                            <div className="font-medium text-gray-900 dark:text-white">{player.name}</div>
+                            <div className="text-xs text-gray-700 dark:text-gray-200">
+                              {index === 0 ? 'Captain, Batsman' : 
+                               index === 1 ? 'Wicket Keeper' :
+                               index < 6 ? 'Batsman' :
+                               index < 9 ? 'All Rounder' : 'Bowler'}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Team B */}
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <img 
+                        src={match.teamB.logo || 'https://via.placeholder.com/48?text=B'}
+                        alt={`${match.teamB.name} logo`} 
+                        className="w-12 h-12 rounded-full object-cover ring-4 ring-green-100 dark:ring-green-900"
+                        onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/48?text=B'; }}
+                      />
+                      <div>
+                        <h5 className="text-lg font-bold text-green-600 dark:text-green-400">{match.teamB.name}</h5>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">11 Players</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid gap-2">
+                      {match.teamB.players.slice(0, 11).map((player, index) => (
+                        <div key={player.id} className="flex items-center space-x-3 p-3 bg-green-50 dark:bg-green-800/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-700/30 transition-colors duration-200 border border-green-200 dark:border-green-700/50">
+                          <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                            {index + 1}
+                          </div>
+                          <div>
+                            <div className="font-medium text-gray-900 dark:text-white">{player.name}</div>
+                            <div className="text-xs text-gray-700 dark:text-gray-200">
+                              {index === 0 ? 'Captain, Batsman' : 
+                               index === 1 ? 'Wicket Keeper' :
+                               index < 6 ? 'Batsman' :
+                               index < 9 ? 'All Rounder' : 'Bowler'}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
