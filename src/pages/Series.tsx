@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { MatchDetails } from '../types/cricket';
 
 interface SeriesData {
   id: string;
@@ -29,6 +30,7 @@ const Series: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -154,6 +156,46 @@ const Series: React.FC = () => {
     }, 1000);
   }, [highlightSeries]);
 
+  // Function to handle series details navigation
+  const handleViewDetails = (series: SeriesData) => {
+    console.log('Navigating to series details:', series);
+    
+    // Create a mock match data structure from series data
+    const mockMatch: MatchDetails = {
+      id: `series-${series.id}`, // Make sure ID is unique
+      teamA: {
+        name: series.teams[0] || 'Team A',
+        score: series.status === 'Live' ? Math.floor(Math.random() * 300) + 150 : 250,
+        wickets: series.status === 'Live' ? Math.floor(Math.random() * 10) : 8,
+        overs: series.status === 'Live' ? `${Math.floor(Math.random() * 50)}.${Math.floor(Math.random() * 6)}` : '50.0',
+        runRate: series.status === 'Live' ? Math.random() * 3 + 5 : 5.0,
+        logo: '/api/placeholder/40',
+        players: []
+      },
+      teamB: {
+        name: series.teams[1] || 'Team B',
+        score: series.status === 'Live' ? Math.floor(Math.random() * 300) + 100 : 220,
+        wickets: series.status === 'Live' ? Math.floor(Math.random() * 10) : 10,
+        overs: series.status === 'Live' ? `${Math.floor(Math.random() * 50)}.${Math.floor(Math.random() * 6)}` : '48.3',
+        runRate: series.status === 'Live' ? Math.random() * 3 + 4 : 4.5,
+        logo: '/api/placeholder/40',
+        players: []
+      },
+      status: series.status === 'Live' ? 'live' : series.status === 'Upcoming' ? 'upcoming' : 'completed',
+      venue: series.venue,
+      lastOvers: ['4', '6', '1', '0', '2', '4'],
+      matchType: series.format,
+      series: series.name,
+      toss: `${series.teams[0]} won the toss and elected to bat first`,
+      result: series.status === 'Completed' ? `${series.currentLeader || series.teams[0]} won by 5 wickets` : undefined
+    };
+
+    console.log('Mock match data:', mockMatch);
+
+    // Navigate to scorecard with mock match data
+    navigate(`/scorecard/series-${series.id}`, { state: { match: mockMatch } });
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Live': return 'bg-red-500';
@@ -181,15 +223,15 @@ const Series: React.FC = () => {
     return (
       <div 
         id={`series-${series.id}`}
-        className={`group bg-white dark:bg-dark-800 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-dark-900/20 transition-all duration-500 overflow-hidden border transform hover:-translate-y-2 ${
+        className={`group bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 rounded-2xl shadow-lg hover:shadow-2xl dark:shadow-xl dark:shadow-black/30 transition-all duration-500 overflow-hidden border transform hover:-translate-y-2 ${
           isHighlighted 
             ? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800 border-blue-400 dark:border-blue-600 shadow-2xl' 
-            : 'border-gray-100 dark:border-dark-700 hover:border-blue-200 dark:hover:border-blue-600/30'
+            : 'border-gray-100 dark:border-slate-600 hover:border-blue-200 dark:hover:border-blue-500/50'
         }`}
       >
       {/* Series Image */}
-      <div className="relative h-48 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <div className="relative h-48 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 dark:from-slate-700 dark:via-slate-800 dark:to-slate-900 overflow-hidden">
+        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
         <div className="absolute top-4 left-4 flex gap-2">
           <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getStatusColor(series.status)}`}>
             {series.status}
@@ -199,10 +241,10 @@ const Series: React.FC = () => {
           </span>
         </div>
         <div className="absolute bottom-4 left-4 right-4">
-          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-200 transition-colors">
+          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-200 dark:group-hover:text-slate-200 transition-colors">
             {series.name}
           </h3>
-          <p className="text-blue-100 text-sm">{series.teams.join(' vs ')}</p>
+          <p className="text-blue-100 dark:text-slate-300 text-sm">{series.teams.join(' vs ')}</p>
         </div>
         {series.status === 'Live' && (
           <div className="absolute top-4 right-4">
@@ -215,9 +257,9 @@ const Series: React.FC = () => {
       </div>
 
       {/* Series Content */}
-      <div className="p-6">
+      <div className="p-6 dark:bg-gradient-to-b dark:from-slate-800/50 dark:to-slate-900">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+          <div className="flex items-center gap-2 text-gray-600 dark:text-slate-300">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -225,23 +267,23 @@ const Series: React.FC = () => {
             <span className="text-sm font-medium">{series.venue}</span>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-500 dark:text-gray-400">Matches</div>
-            <div className="font-bold text-gray-800 dark:text-gray-100">{series.matchesPlayed}/{series.totalMatches}</div>
+            <div className="text-sm text-gray-500 dark:text-slate-400">Matches</div>
+            <div className="font-bold text-gray-800 dark:text-slate-100">{series.matchesPlayed}/{series.totalMatches}</div>
           </div>
         </div>
 
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">{series.description}</p>
+        <p className="text-gray-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">{series.description}</p>
 
         {/* Progress Bar */}
         {series.status !== 'Upcoming' && (
           <div className="mb-4">
-            <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+            <div className="flex justify-between text-xs text-gray-500 dark:text-slate-400 mb-1">
               <span>Progress</span>
               <span>{series.progress}%</span>
             </div>
-            <div className="w-full bg-gray-200 dark:bg-dark-600 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500 h-2 rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${series.progress}%` }}
               ></div>
             </div>
@@ -250,11 +292,11 @@ const Series: React.FC = () => {
 
         {/* Current Leader */}
         {series.currentLeader && series.status !== 'Upcoming' && (
-          <div className="flex items-center gap-2 mb-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800/30">
+          <div className="flex items-center gap-2 mb-4 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-lg border border-yellow-200 dark:border-yellow-700/50">
             <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
-            <span className="text-sm font-semibold text-yellow-800 dark:text-yellow-300">
+            <span className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">
               {series.status === 'Completed' ? 'Winner: ' : 'Leading: '}
               {series.currentLeader}
             </span>
@@ -262,15 +304,20 @@ const Series: React.FC = () => {
         )}
 
         {/* Action Button */}
-        <Link
-          to={`/series/${series.id}`}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked for series:', series.name);
+            handleViewDetails(series);
+          }}
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 text-white py-3 px-4 rounded-xl font-semibold text-center hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-400 dark:hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl dark:shadow-black/20 flex items-center justify-center gap-2 group"
         >
           <span>View Details</span>
           <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-        </Link>
+        </button>
       </div>
     </div>
     );
