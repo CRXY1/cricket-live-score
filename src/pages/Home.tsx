@@ -220,7 +220,8 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Series and Results Grid */}
+        {/* Series and Results Grid - TEMPORARILY HIDDEN */}
+        {/* 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <section className="bg-white dark:bg-dark-800 border dark:border-dark-700 rounded-lg shadow-md dark:shadow-xl p-6">
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Current Series</h2>
@@ -264,6 +265,7 @@ const Home: React.FC = () => {
             </div>
           </section>
         </div>
+        */}
       </main>
 
       <Footer />
