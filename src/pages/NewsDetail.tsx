@@ -12,6 +12,7 @@ const NewsDetail: React.FC = () => {
   const [relatedArticles, setRelatedArticles] = useState<NewsArticle[]>([]);
   const [readingProgress, setReadingProgress] = useState(0);
   const [shareMessage, setShareMessage] = useState('');
+  const [isShareDropdownOpen, setIsShareDropdownOpen] = useState(false);
 
   // Share functionality
   const handleShare = async () => {
@@ -279,46 +280,125 @@ const NewsDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Social Share Section */}
+            {/* Social Share Section - Dropdown */}
             <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8 border border-blue-100 dark:border-blue-800/30">
               <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Share this article</h3>
-              <div className="flex space-x-4">
-                {[
-                  { 
-                    name: 'Twitter', 
-                    icon: '🐦', 
-                    color: 'bg-blue-500 hover:bg-blue-600',
-                    url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(window.location.href)}`
-                  },
-                  { 
-                    name: 'Facebook', 
-                    icon: '📘', 
-                    color: 'bg-blue-700 hover:bg-blue-800',
-                    url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
-                  },
-                  { 
-                    name: 'LinkedIn', 
-                    icon: '💼', 
-                    color: 'bg-blue-800 hover:bg-blue-900',
-                    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`
-                  },
-                  { 
-                    name: 'WhatsApp', 
-                    icon: '💬', 
-                    color: 'bg-green-500 hover:bg-green-600',
-                    url: `https://wa.me/?text=${encodeURIComponent(`${article.title} - ${window.location.href}`)}`
-                  }
-                ].map(social => (
-                  <button 
-                    key={social.name}
-                    onClick={() => window.open(social.url, '_blank', 'noopener,noreferrer')}
-                    className={`${social.color} text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2`}
+              
+              {/* Share Dropdown Container */}
+              <div className="relative inline-block">
+                {/* Dropdown Button */}
+                <button
+                  onClick={() => setIsShareDropdownOpen(!isShareDropdownOpen)}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2 min-w-[140px]"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                  </svg>
+                  <span>Share Article</span>
+                  <svg 
+                    className={`w-4 h-4 transition-transform duration-300 ${isShareDropdownOpen ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
                   >
-                    <span className="text-lg">{social.icon}</span>
-                    <span>{social.name}</span>
-                  </button>
-                ))}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Dropdown Menu */}
+                <div className={`absolute top-full left-0 mt-2 w-64 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-600 rounded-lg shadow-2xl overflow-hidden z-20 transition-all duration-300 ease-in-out transform ${
+                  isShareDropdownOpen 
+                    ? 'opacity-100 visible translate-y-0 scale-100' 
+                    : 'opacity-0 invisible -translate-y-2 scale-95'
+                }`}>
+                  {[
+                    { 
+                      name: 'Twitter', 
+                      icon: '🐦', 
+                      color: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400',
+                      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(article?.title || '')}&url=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'Facebook', 
+                      icon: '📘', 
+                      color: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-700 dark:hover:text-blue-300',
+                      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'LinkedIn', 
+                      icon: '💼', 
+                      color: 'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-800 dark:hover:text-blue-200',
+                      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'WhatsApp', 
+                      icon: '💬', 
+                      color: 'hover:bg-green-50 dark:hover:bg-green-900/20 hover:text-green-600 dark:hover:text-green-400',
+                      url: `https://wa.me/?text=${encodeURIComponent(`${article?.title || ''} - ${window.location.href}`)}`
+                    },
+                    { 
+                      name: 'Copy Link', 
+                      icon: '🔗', 
+                      color: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600 dark:hover:text-purple-400',
+                      url: null // Special case for copy functionality
+                    }
+                  ].map((social, index) => (
+                    <button 
+                      key={social.name}
+                      onClick={() => {
+                        if (social.name === 'Copy Link') {
+                          navigator.clipboard.writeText(window.location.href);
+                          setShareMessage('Link copied to clipboard!');
+                          setTimeout(() => setShareMessage(''), 3000);
+                        } else {
+                          window.open(social.url!, '_blank', 'noopener,noreferrer');
+                        }
+                        setIsShareDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-all duration-200 ${social.color} text-gray-700 dark:text-gray-200 border-b border-gray-100 dark:border-dark-700 last:border-b-0`}
+                      style={{
+                        animationDelay: `${index * 50}ms`,
+                        animation: isShareDropdownOpen ? `slideInFromTop 0.3s ease-out forwards` : 'none'
+                      }}
+                    >
+                      <span className="text-xl flex-shrink-0">{social.icon}</span>
+                      <div className="flex-1">
+                        <div className="font-medium">{social.name}</div>
+                        <div className="text-xs opacity-75">
+                          {social.name === 'Twitter' ? 'Share on Twitter' :
+                           social.name === 'Facebook' ? 'Share on Facebook' :
+                           social.name === 'LinkedIn' ? 'Share on LinkedIn' :
+                           social.name === 'WhatsApp' ? 'Send via WhatsApp' :
+                           'Copy article link'}
+                        </div>
+                      </div>
+                      <svg className="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Backdrop to close dropdown when clicking outside */}
+                {isShareDropdownOpen && (
+                  <div 
+                    className="fixed inset-0 z-10"
+                    onClick={() => setIsShareDropdownOpen(false)}
+                  />
+                )}
               </div>
+
+              {/* Share Message */}
+              {shareMessage && (
+                <div className="mt-4 p-3 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-lg border border-green-200 dark:border-green-700 animate-fade-in">
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{shareMessage}</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

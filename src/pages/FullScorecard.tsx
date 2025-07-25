@@ -580,24 +580,50 @@ const FullScorecard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Partnership Analysis</h3>
-                <div className="space-y-3">
+              <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-6 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  Partnership Analysis
+                </h3>
+                <div className="space-y-4">
                   {[
                     { partnership: "1st Wicket", runs: 45, balls: 67, partners: "Player1 & Player2" },
                     { partnership: "2nd Wicket", runs: 78, balls: 89, partners: "Player2 & Player3" },
                     { partnership: "3rd Wicket", runs: 23, balls: 34, partners: "Player3 & Player4" },
                     { partnership: "Current", runs: 56, balls: 45, partners: "Player4 & Player5" }
                   ].map((p, index) => (
-                    <div key={index} className="p-3 bg-gray-50 dark:bg-dark-750 rounded-lg">
+                    <div key={index} className={`p-4 rounded-xl border transition-all duration-200 hover:shadow-md ${
+                      p.partnership === 'Current' 
+                        ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-blue-200 dark:border-blue-700/50 shadow-sm' 
+                        : 'bg-gray-50 dark:bg-slate-800/50 border-gray-200 dark:border-slate-600 hover:bg-gray-100 dark:hover:bg-slate-700/50'
+                    }`}>
                       <div className="flex justify-between items-center">
-                        <div>
-                          <div className="font-medium text-gray-900 dark:text-gray-100">{p.partnership}</div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400">{p.partners}</div>
+                        <div className="flex-1">
+                          <div className={`font-semibold mb-1 flex items-center gap-2 ${
+                            p.partnership === 'Current' 
+                              ? 'text-blue-700 dark:text-blue-300' 
+                              : 'text-gray-900 dark:text-slate-100'
+                          }`}>
+                            {p.partnership === 'Current' && (
+                              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            )}
+                            {p.partnership}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-slate-400 font-medium">{p.partners}</div>
                         </div>
                         <div className="text-right">
-                          <div className="font-bold text-gray-900 dark:text-gray-100">{p.runs} runs</div>
-                          <div className="text-xs text-gray-600 dark:text-gray-400">{p.balls} balls</div>
+                          <div className={`font-bold text-lg ${
+                            p.partnership === 'Current' 
+                              ? 'text-blue-700 dark:text-blue-300' 
+                              : 'text-gray-900 dark:text-slate-100'
+                          }`}>
+                            {p.runs} runs
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-slate-400">
+                            {p.balls} balls • {(p.runs / p.balls * 100).toFixed(1)} SR
+                          </div>
                         </div>
                       </div>
                     </div>
