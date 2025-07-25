@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { FollowedTeamsProvider } from './contexts/FollowedTeamsContext';
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import LiveScores from './pages/LiveScores';
 import Series from './pages/Series';
@@ -17,6 +18,7 @@ const App: React.FC = () => {
       <FollowedTeamsProvider>
         <Router basename="/cricket-live-score">
           <div className="min-h-screen bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
+            <ScrollToTop />
             <Header />
             <Routes>
               <Route path="/" element={<Home />} />
