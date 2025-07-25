@@ -88,44 +88,44 @@ const FullScorecard: React.FC = () => {
 
           {/* Quick Scores */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-gray-50 dark:bg-dark-750 p-4 rounded-lg">
+            <div className="bg-gray-50 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 p-4 rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm dark:shadow-lg dark:shadow-black/20">
               <div className="flex items-center space-x-3">
                 <img 
                   src={match.teamA.logo || 'https://via.placeholder.com/32?text=Team'}
                   alt={`${match.teamA.name} logo`} 
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 dark:ring-slate-600"
                   onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/32?text=Team'; }}
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">{match.teamA.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">({match.teamA.overs} ov)</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-slate-100">{match.teamA.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-slate-400">({match.teamA.overs} ov)</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                  <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
                     {match.teamA.score}/{match.teamA.wickets}
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">RR: {match.teamA.runRate.toFixed(2)}</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400">RR: {match.teamA.runRate.toFixed(2)}</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-gray-50 dark:bg-dark-750 p-4 rounded-lg">
+            <div className="bg-gray-50 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 p-4 rounded-lg border border-gray-200 dark:border-slate-600 shadow-sm dark:shadow-lg dark:shadow-black/20">
               <div className="flex items-center space-x-3">
                 <img 
                   src={match.teamB.logo || 'https://via.placeholder.com/32?text=Team'}
                   alt={`${match.teamB.name} logo`} 
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 dark:ring-slate-600"
                   onError={e => { (e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/32?text=Team'; }}
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">{match.teamB.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">({match.teamB.overs} ov)</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-slate-100">{match.teamB.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-slate-400">({match.teamB.overs} ov)</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                  <div className="text-xl font-bold text-gray-900 dark:text-slate-100">
                     {match.teamB.score}/{match.teamB.wickets}
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">RR: {match.teamB.runRate.toFixed(2)}</p>
+                  <p className="text-xs text-gray-600 dark:text-slate-400">RR: {match.teamB.runRate.toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -316,9 +316,9 @@ const FullScorecard: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Recent Overs</h3>
               <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
                 {match.lastOvers.map((over, index) => (
-                  <div key={index} className="text-center p-3 bg-gray-50 dark:bg-dark-750 rounded-lg">
-                    <p className="text-xs text-gray-600 dark:text-gray-400">Over {index + 1}</p>
-                    <p className="font-bold text-gray-900 dark:text-gray-100">{over}</p>
+                  <div key={index} className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Over {index + 1}</p>
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">{over}</p>
                   </div>
                 ))}
               </div>
