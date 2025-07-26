@@ -102,7 +102,7 @@ const Home: React.FC = () => {
                 style={{ transform: `translateX(-${currentSlide * 24.25}%)` }}
               >
                 {scores.map((match, idx) => (
-                  <div key={idx} className="w-[24.25%] flex-shrink-0 min-w-0">
+                  <div key={match.id} className="w-[24.25%] flex-shrink-0 min-w-0">
                     <Scoreboard match={match} />
                   </div>
                 ))}
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
                 {scores.map((match, idx) => (
-                  <div key={idx} className="w-full flex-shrink-0 px-2">
+                  <div key={match.id} className="w-full flex-shrink-0 px-2">
                     <Scoreboard match={match} />
                   </div>
                 ))}
