@@ -78,7 +78,12 @@ const NewsDetail: React.FC = () => {
 
   // Scroll to top when component mounts or article ID changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Add a small delay to ensure the page has rendered
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [id]);
 
   // Reading progress calculation
@@ -135,9 +140,9 @@ const NewsDetail: React.FC = () => {
         ></div>
       </div>
 
-      <main className="min-h-screen bg-gray-50 dark:bg-dark-900">
+      <main className="min-h-screen bg-gray-50 dark:bg-dark-900 pt-safe">
         {/* Hero Section */}
-        <div className="relative h-[70vh] overflow-hidden">
+        <div className="relative h-[60vh] md:h-[70vh] overflow-hidden mt-2 md:mt-0">
           {/* Background Image with Parallax Effect */}
           <div 
             className="absolute inset-0 bg-cover bg-center transform scale-110 transition-transform duration-700 ease-out hover:scale-105"
@@ -151,18 +156,18 @@ const NewsDetail: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
           
           {/* Content */}
-          <div className="relative h-full container mx-auto px-4 flex items-end pb-16">
+          <div className="relative h-full container mx-auto px-4 flex items-end pb-8 md:pb-16">
             <div className="max-w-4xl animate-fade-in-up">
               {/* Category Badge */}
-              <div className="mb-4">
-                <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-md border ${
+              <div className="mb-3 md:mb-4">
+                <span className={`inline-flex items-center px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-semibold backdrop-blur-md border ${
                   article.category === 'match-report' 
                     ? 'bg-green-500/20 text-green-300 border-green-400/30' 
                     : article.category === 'analysis'
                     ? 'bg-purple-500/20 text-purple-300 border-purple-400/30'
                     : 'bg-blue-500/20 text-blue-300 border-blue-400/30'
                 }`}>
-                  <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                   </svg>
                   {article.category.replace('-', ' ').toUpperCase()}
@@ -170,26 +175,26 @@ const NewsDetail: React.FC = () => {
               </div>
               
               {/* Title */}
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight">
                 {article.title}
               </h1>
               
               {/* Summary */}
-              <p className="text-xl text-gray-200 mb-8 max-w-3xl leading-relaxed">
+              <p className="text-base md:text-xl text-gray-200 mb-6 md:mb-8 max-w-3xl leading-relaxed">
                 {article.summary}
               </p>
               
               {/* Author & Date */}
-              <div className="flex items-center space-x-6 text-gray-300">
+              <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-6 text-gray-300">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-semibold text-sm md:text-lg">
                       {article.author.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <p className="font-semibold text-white">{article.author}</p>
-                    <p className="text-sm">{new Date(article.date).toLocaleDateString('en-US', { 
+                    <p className="font-semibold text-white text-sm md:text-base">{article.author}</p>
+                    <p className="text-xs md:text-sm">{new Date(article.date).toLocaleDateString('en-US', { 
                       year: 'numeric', 
                       month: 'long', 
                       day: 'numeric' 
@@ -200,12 +205,12 @@ const NewsDetail: React.FC = () => {
                 {/* Share Button */}
                 <button 
                   onClick={handleShare}
-                  className="ml-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 border border-white/20 flex items-center space-x-2"
+                  className="md:ml-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 md:px-6 md:py-3 rounded-full transition-all duration-300 hover:scale-105 border border-white/20 flex items-center space-x-2 w-fit"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                   </svg>
-                  <span>Share</span>
+                  <span className="text-sm md:text-base">Share</span>
                 </button>
               </div>
             </div>
@@ -213,12 +218,12 @@ const NewsDetail: React.FC = () => {
         </div>
 
         {/* Article Content */}
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-4 md:py-16">
           <div className="max-w-4xl mx-auto">
             {/* Navigation Back Button */}
             <button
               onClick={() => navigate(-1)}
-              className="mb-8 inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors group"
+              className="mb-0 md:mb-8 inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors group mt-2 md:mt-0"
             >
               <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -227,7 +232,7 @@ const NewsDetail: React.FC = () => {
             </button>
 
             {/* Article Body */}
-            <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl dark:shadow-2xl p-8 md:p-12 border border-gray-100 dark:border-dark-700">
+            <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl dark:shadow-2xl p-6 md:p-8 lg:p-12 border border-gray-100 dark:border-dark-700">
               {/* Tags */}
               <div className="mb-8">
                 <div className="flex flex-wrap gap-2">
@@ -280,13 +285,13 @@ const NewsDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* Social Share Section - Dropdown */}
+            {/* Social Share Section */}
             <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8 border border-blue-100 dark:border-blue-800/30">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Share this article</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Share this article</h3>
               
-              {/* Share Dropdown Container */}
-              <div className="relative inline-block">
-                {/* Dropdown Button */}
+              {/* Mobile Dropdown - Only visible on mobile */}
+              <div className="md:hidden relative inline-block">
+                {/* Dropdown Button for Mobile */}
                 <button
                   onClick={() => setIsShareDropdownOpen(!isShareDropdownOpen)}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center space-x-2 min-w-[140px]"
@@ -305,7 +310,7 @@ const NewsDetail: React.FC = () => {
                   </svg>
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Mobile Dropdown Menu */}
                 <div className={`absolute top-full left-0 mt-2 w-64 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-600 rounded-lg shadow-2xl overflow-hidden z-20 transition-all duration-300 ease-in-out transform ${
                   isShareDropdownOpen 
                     ? 'opacity-100 visible translate-y-0 scale-100' 
@@ -340,7 +345,7 @@ const NewsDetail: React.FC = () => {
                       name: 'Copy Link', 
                       icon: '🔗', 
                       color: 'hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:text-purple-600 dark:hover:text-purple-400',
-                      url: null // Special case for copy functionality
+                      url: null
                     }
                   ].map((social, index) => (
                     <button 
@@ -356,10 +361,6 @@ const NewsDetail: React.FC = () => {
                         setIsShareDropdownOpen(false);
                       }}
                       className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-all duration-200 ${social.color} text-gray-700 dark:text-gray-200 border-b border-gray-100 dark:border-dark-700 last:border-b-0`}
-                      style={{
-                        animationDelay: `${index * 50}ms`,
-                        animation: isShareDropdownOpen ? `slideInFromTop 0.3s ease-out forwards` : 'none'
-                      }}
                     >
                       <span className="text-xl flex-shrink-0">{social.icon}</span>
                       <div className="flex-1">
@@ -386,6 +387,86 @@ const NewsDetail: React.FC = () => {
                     onClick={() => setIsShareDropdownOpen(false)}
                   />
                 )}
+              </div>
+
+              {/* Desktop Spread-out Layout - Only visible on desktop */}
+              <div className="hidden md:block">
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                  {[
+                    { 
+                      name: 'Twitter', 
+                      icon: '🐦', 
+                      bgColor: 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500',
+                      shadowColor: 'hover:shadow-blue-500/30',
+                      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(article?.title || '')}&url=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'Facebook', 
+                      icon: '📘', 
+                      bgColor: 'bg-blue-700 hover:bg-blue-800 dark:bg-blue-800 dark:hover:bg-blue-700',
+                      shadowColor: 'hover:shadow-blue-700/30',
+                      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'LinkedIn', 
+                      icon: '💼', 
+                      bgColor: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600',
+                      shadowColor: 'hover:shadow-blue-600/30',
+                      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`
+                    },
+                    { 
+                      name: 'WhatsApp', 
+                      icon: '💬', 
+                      bgColor: 'bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500',
+                      shadowColor: 'hover:shadow-green-500/30',
+                      url: `https://wa.me/?text=${encodeURIComponent(`${article?.title || ''} - ${window.location.href}`)}`
+                    },
+                    { 
+                      name: 'Copy Link', 
+                      icon: '🔗', 
+                      bgColor: 'bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-500',
+                      shadowColor: 'hover:shadow-purple-500/30',
+                      url: null
+                    }
+                  ].map((social, index) => (
+                    <button 
+                      key={social.name}
+                      onClick={() => {
+                        if (social.name === 'Copy Link') {
+                          navigator.clipboard.writeText(window.location.href);
+                          setShareMessage('Link copied to clipboard!');
+                          setTimeout(() => setShareMessage(''), 3000);
+                        } else {
+                          window.open(social.url!, '_blank', 'noopener,noreferrer');
+                        }
+                      }}
+                      className={`group relative ${social.bgColor} text-white rounded-lg px-6 py-5 transition-all duration-300 hover:scale-105 hover:-translate-y-1 ${social.shadowColor} hover:shadow-xl transform`}
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                        animation: 'fadeInUp 0.6s ease-out forwards'
+                      }}
+                    >
+                      {/* Animated background gradient on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 to-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      
+                      {/* Content */}
+                      <div className="relative flex flex-col items-center space-y-3">
+                        <div className="text-2xl group-hover:scale-110 transition-transform duration-300">
+                          {social.icon}
+                        </div>
+                        <div className="font-semibold text-sm group-hover:text-white transition-colors duration-300">
+                          {social.name}
+                        </div>
+                        
+                        {/* Hover effect indicator */}
+                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300 rounded-full"></div>
+                      </div>
+
+                      {/* Ripple effect on click */}
+                      <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-30 bg-white transition-opacity duration-150"></div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Share Message */}
