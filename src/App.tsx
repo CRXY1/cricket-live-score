@@ -13,8 +13,9 @@ import NewsDetail from './pages/NewsDetail';
 import FullScorecard from './pages/FullScorecard';
 
 const App: React.FC = () => {
-  // Use basename only in production (for GitHub Pages)
-  const basename = process.env.NODE_ENV === 'production' ? '/cricket-live-score' : '';
+  // Force empty basename for development, use /cricket-live-score for production
+  const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+  const basename = isDevelopment ? '' : '/cricket-live-score';
   
   return (
     <ThemeProvider>
