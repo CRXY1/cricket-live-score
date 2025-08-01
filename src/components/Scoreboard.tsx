@@ -16,12 +16,18 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
     };
 
     return (
-        <div
-            className={`bg-white dark:bg-dark-800 rounded-lg shadow-md dark:shadow-xl border dark:border-dark-700 p-4 mb-2 w-full h-55 transform transition-all duration-200 hover:scale-102 ${
-                isExpanded ? 'shadow-lg dark:shadow-2xl h-auto' : ''
-            } flex flex-col`}
-        >
-            <div className="flex flex-col space-y-3 flex-1">
+        <div className="relative group">
+            {/* Multi-layered gradient glow effect */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-xl blur opacity-20 group-hover:opacity-50 transition duration-300"></div>
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg blur-sm opacity-30 group-hover:opacity-75 transition duration-300 animate-pulse"></div>
+            
+            {/* Main card */}
+            <div
+                className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-800 dark:to-dark-900 rounded-lg shadow-md dark:shadow-xl border border-gray-200 dark:border-dark-700 p-4 w-full h-55 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl dark:hover:shadow-3xl ${
+                    isExpanded ? 'shadow-lg dark:shadow-2xl h-auto' : ''
+                } flex flex-col backdrop-blur-sm hover:z-10`}
+            >
+                <div className="flex flex-col space-y-3 flex-1">
                 <div className="flex justify-between items-center border-b dark:border-dark-600 pb-2 min-h-[2.5rem]">
                     <div className="flex items-center space-x-2 flex-1 min-w-0">
                         <h2 className="text-sm font-bold text-gray-800 dark:text-gray-100 whitespace-nowrap">{match.matchType}</h2>
@@ -150,6 +156,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
                         </div>
                     </div>
                 )}
+                </div>
             </div>
         </div>
     );
