@@ -13,10 +13,13 @@ import NewsDetail from './pages/NewsDetail';
 import FullScorecard from './pages/FullScorecard';
 
 const App: React.FC = () => {
+  // Use basename only in production (for GitHub Pages)
+  const basename = process.env.NODE_ENV === 'production' ? '/cricket-live-score' : '';
+  
   return (
     <ThemeProvider>
       <FollowedTeamsProvider>
-        <Router basename="/cricket-live-score">
+        <Router basename={basename}>
           <div className="min-h-screen bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
             <ScrollToTop />
             <Header />
