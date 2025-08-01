@@ -179,7 +179,7 @@ const Home: React.FC = () => {
               >
                 {scores.map((match, idx) => (
                   <div key={match.id} className="w-1/4 flex-shrink-0">
-                    <Scoreboard match={match} />
+                    <Scoreboard match={match} showGlow={false} />
                   </div>
                 ))}
               </div>
@@ -219,7 +219,7 @@ const Home: React.FC = () => {
               >
                 {scores.map((match, idx) => (
                   <div key={match.id} className="w-full flex-shrink-0 px-2">
-                    <Scoreboard match={match} />
+                    <Scoreboard match={match} showGlow={false} />
                   </div>
                 ))}
               </div>

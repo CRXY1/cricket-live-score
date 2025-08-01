@@ -4,9 +4,10 @@ import { MatchDetails } from '../types/cricket';
 
 interface ScoreboardProps {
     match: MatchDetails;
+    showGlow?: boolean;
 }
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ match, showGlow = false }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const navigate = useNavigate();
 
@@ -17,15 +18,23 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ match }) => {
 
     return (
         <div className="relative group">
-            {/* Multi-layered gradient glow effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-xl blur opacity-20 group-hover:opacity-50 transition duration-300"></div>
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg blur-sm opacity-30 group-hover:opacity-75 transition duration-300 animate-pulse"></div>
+            {/* Multi-layered gradient glow effect - only show when showGlow is true */}
+            {showGlow && (
+                <>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 rounded-xl blur opacity-20 group-hover:opacity-50 transition duration-300"></div>
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-lg blur-sm opacity-30 group-hover:opacity-75 transition duration-300 animate-pulse"></div>
+                </>
+            )}
             
             {/* Main card */}
             <div
-                className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-800 dark:to-dark-900 rounded-lg shadow-md dark:shadow-xl border border-gray-200 dark:border-dark-700 p-4 w-full h-55 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl dark:hover:shadow-3xl ${
+                className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-dark-800 dark:to-dark-900 rounded-lg shadow-md dark:shadow-xl border border-gray-200 dark:border-dark-700 p-4 w-full h-55 transition-all duration-300 flex flex-col backdrop-blur-sm ${
+                    showGlow 
+                        ? 'transform hover:scale-105 hover:shadow-2xl dark:hover:shadow-3xl hover:z-10' 
+                        : ''
+                } ${
                     isExpanded ? 'shadow-lg dark:shadow-2xl h-auto' : ''
-                } flex flex-col backdrop-blur-sm hover:z-10`}
+                }`}
             >
                 <div className="flex flex-col space-y-3 flex-1">
                 <div className="flex justify-between items-center border-b dark:border-dark-600 pb-2 min-h-[2.5rem]">
