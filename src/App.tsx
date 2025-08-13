@@ -11,6 +11,8 @@ import Teams from './pages/Teams';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import FullScorecard from './pages/FullScorecard';
+import AdminLogin from './admin/AdminLogin';
+import AdminDashboard from './admin/AdminDashboard';
 
 const App: React.FC = () => {
   // Force empty basename for development, use /cricket-live-score for production
@@ -23,15 +25,26 @@ const App: React.FC = () => {
         <Router basename={basename}>
           <div className="min-h-screen bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
             <ScrollToTop />
-            <Header />
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/live-scores" element={<LiveScores />} />
-              <Route path="/series" element={<Series />} />
-              <Route path="/teams" element={<Teams />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:id" element={<NewsDetail />} />
-              <Route path="/scorecard/:id" element={<FullScorecard />} />
+              {/* Admin Routes - No Header */}
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              
+              {/* Main App Routes - With Header */}
+              <Route path="/*" element={
+                <>
+                  <Header />
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/live-scores" element={<LiveScores />} />
+                    <Route path="/series" element={<Series />} />
+                    <Route path="/teams" element={<Teams />} />
+                    <Route path="/news" element={<News />} />
+                    <Route path="/news/:id" element={<NewsDetail />} />
+                    <Route path="/scorecard/:id" element={<FullScorecard />} />
+                  </Routes>
+                </>
+              } />
             </Routes>
           </div>
         </Router>
